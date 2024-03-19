@@ -1,0 +1,58 @@
+$size-left-right-area : 15%;
+$size-center-area : calc(100% - $size-left-right-area*2);
+$background-main: rgb(46, 80, 252);
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    #Templete {
+        width: 100%;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        #GamingMachine {
+            display: flex;
+            width: 100%;
+            height: 70%;
+            background-color: $background-main;
+            box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+
+            #LeftArea {
+                width: $size-left-right-area;
+            }
+
+            #LeftArea {
+                .moveBtn {
+                    clip-path: polygon(20% 0%, 0% 20%, 30% 50%, 0% 80%, 20% 100%, 50% 70%, 80% 100%, 100% 80%, 70% 50%, 100% 20%, 80% 0%, 50% 30%);
+                    width: 100px;
+                    height: 100px;
+                    
+                }
+            }
+
+            #CenterArea {
+                width: $size-center-area;
+                background-image: url(../../image/bacgroundCenter.jpg);
+                background-size: cover;
+                background-repeat: no-repeat;
+                background-position: auto auto;
+                box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+                position: relative;
+            }
+
+            #RightArea {
+                width: $size-left-right-area;
+            }
+        }
+    }
+}
