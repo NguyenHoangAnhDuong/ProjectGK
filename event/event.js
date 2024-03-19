@@ -15,6 +15,9 @@ var paddleX = (canvas.width-paddleWidth)/2;
 //Đặt thanh đỡ mặt định sẽ không di chuyển
 var moveRight = false;
 var moveLeft = false;
+//Đưa sự kiện
+document.addEventListener("keydown", clickKeyRight, true);
+document.addEventListener("keyup", clickKeyLeft, true);
 //Vẽ quả bóng
 function drawBall() {
     canvas_context.beginPath();
@@ -32,11 +35,11 @@ function drawPaddle() {
     canvas_context.fill();
     canvas_context.closePath();
 }
+//Thực thi các chuyển động trong game
 function draw() {
     canvas_context.clearRect(0, 0, canvas.width, canvas.height);
     drawBall();
     drawPaddle()
-    
     locationX += dx;
     locationY += dy;
     if (locationX + dx > canvas.width - radiusBall || locationX + dx < radiusBall) {
@@ -46,13 +49,19 @@ function draw() {
         dy = -dy;
     }
     else if (locationY + dy > canvas.height - radiusBall - paddleHeight) {
-        if(locationX > paddleX && locationX < paddleX + paddleWidth) {
+        if(locationX > paddleX - radiusBall && locationX < paddleX + paddleWidth + radiusBall) {
             dy = -dy; // Quả bóng nảy lên khi chạm mặt dưới của thanh đỡ
         }
         else {
-            alert("GAME OVER");
-            clearInterval(BallFly);
-            document.location.reload();
+            // Kiểm tra nếu quả bóng cách thanh đỡ với khoảng cách là 2 ở mọi 3 mặt
+            if (Math.abs(locationX - (paddleX + paddleWidth / 2)) <= radiusBall + 2 &&
+                locationY + radiusBall >= canvas.height - paddleHeight - 2) {
+                dy = -dy; // Quả bóng nảy lại khi cách thanh đỡ 2 pixel ở mọi mặt
+            } else {
+                alert("GAME OVER");
+                clearInterval(BallFly);
+                document.location.reload();
+            }
         }
     }
     if(moveRight && paddleX < canvas.width-paddleWidth) {
@@ -63,7 +72,7 @@ function draw() {
     }
 
 }
-//Di chuyển thanh đỡ
+//Nhấn nút sang phải để di chuyển thanh đỡ sang phải
 function clickKeyRight(e) {
     if(e.keyCode == 39) {
         moveRight = true;
@@ -72,7 +81,7 @@ function clickKeyRight(e) {
         moveLeft = true;
     }
 }
-
+//Nhấn nút sang trái để di chuyển thanh đỡ sang trái
 function clickKeyLeft(e) {
     if(e.keyCode == 39) {
         moveRight = false;
@@ -81,8 +90,7 @@ function clickKeyLeft(e) {
         moveLeft = false;
     }
 }
-document.addEventListener("keydown", clickKeyRight, true);
-document.addEventListener("keyup", clickKeyLeft, true);
+
 
 var BallFly = setInterval(draw, 10);
 
