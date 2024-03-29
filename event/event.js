@@ -1,98 +1,176 @@
-//Lấy thẻ canvas
-var canvas = document.getElementById('myGame');
-var canvas_context = canvas.getContext("2d");
-//Vị trí của quả bóng
-var locationX = canvas.width / 2;
-var locationY = canvas.height - 30;
-var radiusBall = 10;
-// khoảng cách quả bóng dịch chuyển
+//Khai báo các biến
+//Lấy thẻ canvas trong html 
+var canvasLeft = document.getElementById("Score");
+var ctx_Left = canvasLeft.getContext("2d");
+
+var canvas = document.getElementById("myGame");
+var ctx = canvas.getContext("2d");
+
+var canvasRight = document.getElementById("Heart");
+var ctx_Right = canvasRight.getContext("2d");
+
+//Vị trí ban đầu của quả bóng
+var x = canvas.width / 2;
+var y = canvas.height - 30;
+
+var ballRadius = 10;//Bán kinh của quả bóng
+//Độ dịch chuyển của quả bóng sau 1ms
 var dx = 2;
 var dy = -2;
-//Vị trí và kích thước của thanh đỡ
+//Kích thước thanh đỡ ngang
 var paddleHeight = 10;
-var paddleWidth = 75;
-var paddleX = (canvas.width-paddleWidth)/2;
-//Đặt thanh đỡ mặt định sẽ không di chuyển
-var moveRight = false;
-var moveLeft = false;
-//Đưa sự kiện
-document.addEventListener("keydown", clickKeyRight, true);
-document.addEventListener("keyup", clickKeyLeft, true);
+var paddleWidth = 100;
+var paddleX = (canvas.width - paddleWidth) / 2;//Tọa độ ban đầu của thanh đỡ ở trục x
+
+//Xét mặc định cho thanh đỡ không di chuyên
+var rightPressed = false;
+var leftPressed = false;
+//Ma trận gạch level 1
+var brickRowCount = 5;//Số hàng
+var brickColumnCount = 8;//Số cột
+//Kích thước của viên gạch
+var brickWidth = 75;
+var brickHeight = 20;
+var brickPadding = 10;
+//Vị trí của ma trận gạch
+var brickOffsetTop = 100;
+var brickOffsetLeft = (canvas.width - (brickWidth + brickPadding) * brickColumnCount) / 2;
+//Mảng các viên gạch
+var bricks = [];
+//Tính điểm
+var score = 0;
+//Sự kiện nhấn nút
+var btnRight = document.getElementById('btnRight');
+var btnLeft = document.getElementById('btnLeft');
+//Mạng
+var lives = 3;
 //Vẽ quả bóng
 function drawBall() {
-    canvas_context.beginPath();
-    canvas_context.arc(locationX, locationY, radiusBall, 0, Math.PI * 2);
-    canvas_context.fillStyle = "red";
-    canvas_context.fill();
-    canvas_context.closePath();
-    
+  ctx.beginPath();
+  ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
+  ctx.fill();
+  ctx.lineWidth = 2;
+  ctx.stroke();
+  ctx.closePath();
+
 }
+
 //Vẽ thanh đỡ
 function drawPaddle() {
-    canvas_context.beginPath();
-    canvas_context.rect(paddleX, canvas.height-paddleHeight-10 , paddleWidth, paddleHeight);
-    canvas_context.fillStyle = "red";
-    canvas_context.fill();
-    canvas_context.closePath();
+  ctx.beginPath();
+  ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
+  ctx.fillStyle = "violet";
+  ctx.fill();
+  ctx.closePath();
 }
-//Thực thi các chuyển động trong game
-function draw() {
-    canvas_context.clearRect(0, 0, canvas.width, canvas.height);
-    drawBall();
-    drawPaddle()
-    locationX += dx;
-    locationY += dy;
-    if (locationX + dx > canvas.width - radiusBall || locationX + dx < radiusBall) {
-        dx = -dx;
+;
+//Thêm sự kiến nhấn giữ phím trái phải
+document.addEventListener("keydown", keyDownHandler, false);
+document.addEventListener("keyup", keyUpHandler, false);
+//Sự kiện khi nút trai phải được nhấn
+function keyDownHandler(e) {
+  if (e.keyCode == 39) {
+    rightPressed = true;
+    btnRight.style.scale = '0.9'
+    btnRight.style.boxShadow = 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;'
+  }
+  else if (e.keyCode == 37) {
+    leftPressed = true;
+    btnLeft.style.scale = '0.9'
+    btnLeft.style.boxShadow = 'rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;'
+  }
+}
+//Sự kiện khi nút trái phải được thả ra
+function keyUpHandler(e) {
+  if (e.keyCode == 39) {
+    rightPressed = false;
+    btnRight.style.scale = '1'
+  }
+  else if (e.keyCode == 37) {
+    leftPressed = false;
+    btnLeft.style.scale = '1'
+  }
+}
+
+
+
+for (c = 0; c < brickColumnCount; c++) {
+  bricks[c] = [];
+  for (r = 0; r < brickRowCount; r++) {
+    bricks[c][r] = { x: 0, y: 0, status: 1 };
+  }
+}
+//Vẽ các khối gạch
+function drawBricks() {
+  for (c = 0; c < brickColumnCount; c++) {
+    for (r = 0; r < brickRowCount; r++) {
+      if (bricks[c][r].status == 1) {
+        var brickX = (c * (brickWidth + brickPadding)) + brickOffsetLeft;
+        var brickY = (r * (brickHeight + brickPadding)) + brickOffsetTop;
+        bricks[c][r].x = brickX;
+        bricks[c][r].y = brickY;
+        ctx.beginPath();
+        ctx.rect(brickX, brickY, brickWidth, brickHeight);
+        ctx.fillStyle = "violet";
+        ctx.strokeStyle = "black"
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 2; 
+        ctx.stroke();
+        ctx.fill();
+        ctx.closePath();
+      }
     }
-    if (locationY + dy < radiusBall) {
-        dy = -dy;
-    }
-    else if (locationY + dy > canvas.height - radiusBall - paddleHeight) {
-        if(locationX > paddleX - radiusBall && locationX < paddleX + paddleWidth + radiusBall) {
-            dy = -dy; // Quả bóng nảy lên khi chạm mặt dưới của thanh đỡ
+  }
+}
+//Sự kiện nổ khi quả bóng va chạm với gạch
+function collisionDetection() {
+  for (c = 0; c < brickColumnCount; c++) {
+    for (r = 0; r < brickRowCount; r++) {
+      var b = bricks[c][r];
+      if (b.status == 1) {
+        if (x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight) {
+          dy = -dy;
+          b.status = 0;
+          score++;
+          if (score === brickRowCount * brickColumnCount) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            clearInterval(BallFly);
+          }
         }
-        else {
-            // Kiểm tra nếu quả bóng cách thanh đỡ với khoảng cách là 2 ở mọi 3 mặt
-            if (Math.abs(locationX - (paddleX + paddleWidth / 2)) <= radiusBall + 2 &&
-                locationY + radiusBall >= canvas.height - paddleHeight - 2) {
-                dy = -dy; // Quả bóng nảy lại khi cách thanh đỡ 2 pixel ở mọi mặt
-            } else {
-                alert("GAME OVER");
-                clearInterval(BallFly);
-                document.location.reload();
-            }
-        }
+      }
     }
-    if(moveRight && paddleX < canvas.width-paddleWidth) {
-        paddleX += 2;
-    }
-    else if(moveLeft && paddleX > 0) {
-        paddleX -= 2;
-    }
-
+  }
 }
-//Nhấn nút sang phải để di chuyển thanh đỡ sang phải
-function clickKeyRight(e) {
-    if(e.keyCode == 39) {
-        moveRight = true;
-    }
-    else if(e.keyCode == 37) {
-        moveLeft = true;
-    }
+//Tính điểm 
+function drawScore() {
+  ctx_Left.clearRect(0, 0, canvasLeft.width, canvasLeft.height);
+  ctx_Left.font = "24px Arial";
+  ctx_Left.fillStyle = "black";
+  ctx_Left.textAlign = "center";
+  ctx_Left.fillText("Score: " + score, canvasLeft.width / 2, canvasLeft.height / 2);
+  if (score % 2 === 0) {
+    ctx.fillStyle = "green";
+    ctx.strokeStyle = "white";
+  }
+  else {
+    ctx.fillStyle = "yellow";
+    ctx.strokeStyle = "red";
+  }
 }
-//Nhấn nút sang trái để di chuyển thanh đỡ sang trái
-function clickKeyLeft(e) {
-    if(e.keyCode == 39) {
-        moveRight = false;
-    }
-    else if(e.keyCode == 37) {
-        moveLeft = false;
-    }
+function drawLives() {
+  ctx_Right.clearRect(0, 0, canvasRight.width, canvasRight.height);
+  ctx_Right.font = "24px Arial";
+  ctx_Right.fillStyle = "black";
+  ctx_Right.textAlign = "center";
+  ctx_Right.fillText("Lives: "+lives, canvasRight.width/2, (canvasRight.height+37)/2);
 }
 
 
-var BallFly = setInterval(draw, 10);
+
+
+
+
+
 
 
 

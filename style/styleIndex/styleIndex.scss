@@ -1,6 +1,7 @@
-$size-left-right-area : 15%;
-$size-center-area : calc(100% - $size-left-right-area*2);
+$size-center-area : 60%;
+$size-left-right-area : calc((100% - $size-center-area)/2);
 $background-main: rgb(46, 80, 252);
+$size-iconDecorate: calc(100% - 10px);
 
 * {
     margin: 0;
@@ -18,41 +19,165 @@ body {
         height: 100vh;
         display: flex;
         justify-content: center;
-        align-items: center;
+        position: relative;
+
+        .iconDecorate {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            * {
+                width: $size-iconDecorate;
+                height: $size-iconDecorate;
+                border-radius: 50%;
+                border: 2px solid snow;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            &-left {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                position: absolute;
+                background-color: black;
+                z-index: 5;
+                bottom: 25%;
+                left: 14%;
+            }
+
+            &-right {
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                position: absolute;
+                background-color: black;
+                z-index: 5;
+                bottom: 25%;
+                right: 14%;
+            }
+        }
+
+        .underPanel {
+            width: 331.556px;
+            height: 260px;
+            position: absolute;
+            bottom: 0;
+            background-color: $background-main;
+            border: 2px solid black;
+
+        }
+
+        .underPanelLeft {
+            left: 0;
+            border-radius: 0% 0% 60% 0% / 0% 0% 100% 100%;
+        }
+
+        .underPanelRight {
+            right: 0;
+            border-radius: 0% 0% 0% 60% / 0% 0% 100% 100%;
+        }
 
         #GamingMachine {
             display: flex;
             width: 100%;
             height: 70%;
             background-color: $background-main;
-            box-shadow: rgba(0, 0, 0, 0.17) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.15) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.1) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.06) 0px 2px 1px, rgba(0, 0, 0, 0.09) 0px 4px 2px, rgba(0, 0, 0, 0.09) 0px 8px 4px, rgba(0, 0, 0, 0.09) 0px 16px 8px, rgba(0, 0, 0, 0.09) 0px 32px 16px;
+            position: relative;
 
             #LeftArea {
                 width: $size-left-right-area;
-            }
+                position: relative;
 
-            #LeftArea {
-                .moveBtn {
-                    clip-path: polygon(20% 0%, 0% 20%, 30% 50%, 0% 80%, 20% 100%, 50% 70%, 80% 100%, 100% 80%, 70% 50%, 100% 20%, 80% 0%, 50% 30%);
-                    width: 100px;
-                    height: 100px;
-                    
+                #PanelControl {
+                    position: absolute;
+                    bottom: 10%;
+                    left: 15%;
+
+                    #BtnControl {
+                        width: 200px;
+                        height: 200px;
+                        border-radius: 50%;
+                        background-color: violet;
+                        position: relative;
+
+                        .direction {
+                            position: absolute;
+
+                            .btnicon {
+                                font-size: 3.5rem;
+                            }
+                        }
+
+                        .top {
+                            top: 3%;
+                            left: 36%;
+                        }
+
+                        .right {
+                            top: 36%;
+                            right: 3%;
+                        }
+
+                        .bottom {
+                            bottom: 3%;
+                            left: 36%;
+                        }
+
+                        .left {
+                            left: 3%;
+                            top: 36%;
+                        }
+                    }
                 }
             }
 
             #CenterArea {
                 width: $size-center-area;
-                background-color: black;
                 background-size: cover;
+                background-image: url(../../image/bg.jpg);
                 background-repeat: no-repeat;
                 background-position: auto auto;
                 box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
                 position: relative;
+
+                #myGame {
+                    position: absolute;
+                    z-index: 2;
+                }
+
             }
 
             #RightArea {
                 width: $size-left-right-area;
+                position: relative;
+
+                #PanelControl {
+                    width: 200px;
+                    height: 200px;
+                    background-color: violet;
+                    border-radius: 50%;
+                    position: absolute;
+                    bottom: 10%;
+                    right: 15%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+
+                    #BtnSubmit {
+                        width: calc(100% - 30px);
+                        height: calc(100% - 30px);
+                        border-radius: 50%;
+                        box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+                    }
+                }
+
+                #PanelControl #BtnSubmit:hover {
+                    scale: 0.95;
+                }
             }
+
         }
     }
 }
