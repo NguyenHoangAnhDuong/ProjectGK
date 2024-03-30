@@ -9,22 +9,10 @@ var ctx = canvas.getContext("2d");
 var canvasRight = document.getElementById("Heart");
 var ctx_Right = canvasRight.getContext("2d");
 
-//Vị trí ban đầu của quả bóng
-var x = canvas.width / 2;
-var y = canvas.height - 30;
 
-var ballRadius = 10;//Bán kinh của quả bóng
-//Độ dịch chuyển của quả bóng sau 1ms
-var dx = 2;
-var dy = -2;
-//Kích thước thanh đỡ ngang
-var paddleHeight = 10;
-var paddleWidth = 100;
-var paddleX = (canvas.width - paddleWidth) / 2;//Tọa độ ban đầu của thanh đỡ ở trục x
 
-//Xét mặc định cho thanh đỡ không di chuyên
-var rightPressed = false;
-var leftPressed = false;
+
+
 //Ma trận gạch level 1
 var brickRowCount = 5;//Số hàng
 var brickColumnCount = 8;//Số cột
@@ -44,7 +32,17 @@ var btnRight = document.getElementById('btnRight');
 var btnLeft = document.getElementById('btnLeft');
 //Mạng
 var lives = 3;
+
+
+//------------------------------------------------------------------------------------
 //Vẽ quả bóng
+//Vị trí ban đầu của quả bóng
+var x = canvas.width / 2;
+var y = canvas.height - 30;
+var ballRadius = 10;//Bán kinh của quả bóng
+//Độ dịch chuyển của quả bóng sau 1ms
+var dx = 2;
+var dy = -2;
 function drawBall() {
   ctx.beginPath();
   ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
@@ -54,16 +52,42 @@ function drawBall() {
   ctx.closePath();
 
 }
+//-------------------------------------------------------------------------
 
-//Vẽ thanh đỡ
-function drawPaddle() {
+
+
+//Vẽ thanh đỡ ngang
+//Kích thước thanh đỡ ngang
+var paddleHeightHorizontal = 10;
+var paddleWidthHorizontal = 100;
+var paddleHorizontal = (canvas.width - paddleWidthHorizontal) / 2;//Tọa độ ban đầu của thanh đỡ ở trục x
+function drawPaddleHorizontal() {
   ctx.beginPath();
-  ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
+  ctx.rect(paddleHorizontal, canvas.height - paddleHeightHorizontal, paddleWidthHorizontal, paddleHeightHorizontal);
+  ctx.fillStyle = "violet";
+  ctx.fill();
+  ctx.closePath();
+}
+//---------------------------------------------------------------------------------------
+
+//Vẽ thanh đỡ dọc
+var paddleHeightVertical = 100;
+var paddleWidthVertical = 10;
+var paddleVertical = (canvas.height - paddleHeightHorizontal) / 2
+function drawPaddleVertical() {
+  ctx.beginPath();
+  ctx.rect(canvas.width - paddleWidthVertical, paddleVertical, paddleWidthVertical, paddleHeightVertical);
   ctx.fillStyle = "violet";
   ctx.fill();
   ctx.closePath();
 }
 ;
+//-----------------------------------------------------------------------
+
+//Level1
+//Xét mặc định cho thanh đỡ không di chuyên
+var rightPressed = false;
+var leftPressed = false;
 //Thêm sự kiến nhấn giữ phím trái phải
 document.addEventListener("keydown", keyDownHandler, false);
 document.addEventListener("keyup", keyUpHandler, false);
@@ -91,7 +115,7 @@ function keyUpHandler(e) {
     btnLeft.style.scale = '1'
   }
 }
-
+//--------------------------------------------------------------------------
 
 
 for (c = 0; c < brickColumnCount; c++) {
@@ -114,7 +138,7 @@ function drawBricks() {
         ctx.fillStyle = "violet";
         ctx.strokeStyle = "black"
         ctx.strokeStyle = "white";
-        ctx.lineWidth = 2; 
+        ctx.lineWidth = 2;
         ctx.stroke();
         ctx.fill();
         ctx.closePath();
@@ -162,7 +186,11 @@ function drawLives() {
   ctx_Right.font = "24px Arial";
   ctx_Right.fillStyle = "black";
   ctx_Right.textAlign = "center";
-  ctx_Right.fillText("Lives: "+lives, canvasRight.width/2, (canvasRight.height+37)/2);
+  ctx_Right.fillText("Lives: " + lives, canvasRight.width / 2, (canvasRight.height + 37) / 2);
+}
+function animate() {
+  draw();
+  requestAnimationFrame(animate);
 }
 
 

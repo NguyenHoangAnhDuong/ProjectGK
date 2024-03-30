@@ -80,60 +80,97 @@
     </div>
     <script src="../event/event.js"></script>
     <script>
-      function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    drawBall();
-    drawPaddle()
-    x += dx;
-    y += dy;
-    if (x + dx > canvas.width - ballRadius) {
-        dx = -dx; // Đổi hướng khi chạm tường phải
-    }
-    else if (x + dx < ballRadius) {
-        // Nếu quả bóng chạm vào tường trái, kết thúc trò chơi
-        alert("GAME OVER");
-        clearInterval(BallFly);
-    }
-    if (y + dy < ballRadius) {
-        dy = -dy;
-    }
-    else if (y + dy > canvas.height - ballRadius - paddleHeight + 10) {
-        if (x > paddleX - ballRadius && x < paddleX + paddleWidth + ballRadius) {
-            dy = -dy;
-        }
-        else {
-            if (Math.abs(x - (paddleX + paddleWidth / 2)) <= ballRadius &&
-                y + ballRadius >= canvas.height - paddleHeight) {
-                dy = -dy; // Quả bóng nảy lại khi cách thanh đỡ 2 pixel ở mọi mặt
-            }
-            else {
-                lives--;
-                if (!lives) {
-                    alert("GAME OVER");
-                    lives = 0;
-                    clearInterval(BallFly);
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBall();
+            drawPaddleHorizontal();
+            drawPaddleVertical(); // Thêm vẽ thanh đỡ dọc vào hàm draw
+            x += dx;
+            y += dy;
 
-                }
-                else {
-                    x = canvas.width / 2;
-                    y = canvas.height - 30;
-                    dx = 2;
-                    dy = -2;
-                    paddleX = (canvas.width - paddleWidth) / 2;
+            // Xử lý va chạm với biên trái
+            if (x + dx < ballRadius) {
+                dx = -dx;
+            }
+
+            // Xử lý va chạm với biên phải
+            if (x + dx > canvas.width - ballRadius) {
+                if (y > paddleVertical && y < paddleVertical + paddleHeightVertical) {
+                    // Xử lý khi quả bóng chạm thanh đỡ dọc
+                    dx = -dx;
+                } else {
+                    // Xử lý khi quả bóng chạm biên phải
+                    lives--;
+                    if (!lives) {
+                        alert("GAME OVER");
+                        lives = 0;
+                        clearInterval(BallFly);
+                    } else {
+                        x = canvas.width / 2;
+                        y = canvas.height - 30;
+                        dx = 2;
+                        dy = -2;
+                        paddleHorizontal = (canvas.width - paddleWidthHorizontal) / 2;
+                        paddleVertical = (canvas.height - paddleHeightVertical) / 2;
+                    }
                 }
             }
 
-        }
-    }
-    if (rightPressed && paddleX < canvas.width - paddleWidth) {
-        paddleX += 5;
-    }
-    else if (leftPressed && paddleX > 0) {
-        paddleX -= 5;
-    }
-}
-var BallFly = setInterval(draw, 10);
+            // Xử lý va chạm với biên trên
+            if (y + dy < ballRadius) {
+                dy = -dy;
+            }
 
+            // Xử lý va chạm với biên dưới và thanh đỡ
+            if (y + dy > canvas.height - ballRadius - paddleHeightHorizontal + 10) {
+                if (x > paddleHorizontal - ballRadius && x < paddleHorizontal + paddleWidthHorizontal + ballRadius) {
+                    dy = -dy; // Xử lý va chạm với thanh đỡ ngang
+                } else {
+                    // Xử lý khi bóng chạm đáy và không chạm thanh đỡ
+                    if (Math.abs(x - (paddleHorizontal + paddleWidthHorizontal / 2)) <= ballRadius &&
+                        y + ballRadius >= canvas.height - paddleHeightHorizontal) {
+                        dy = -dy; // Quả bóng nảy lại khi cách thanh đỡ 2 pixel ở mọi mặt
+                    } else {
+                        lives--;
+                        if (!lives) {
+                            alert("GAME OVER");
+                            lives = 0;
+                            clearInterval(BallFly);
+                        } else {
+                            x = canvas.width / 2;
+                            y = canvas.height - 30;
+                            dx = 2;
+                            dy = -2;
+                            paddleHorizontal = (canvas.width - paddleWidthHorizontal) / 2;
+                            paddleVertical = (canvas.height - paddleHeightVertical) / 2;
+                        }
+                    }
+                }
+            }
+
+            // Xử lý di chuyển của thanh đỡ ngang
+            if (rightPressed && paddleHorizontal < canvas.width - paddleWidthHorizontal) {
+                paddleHorizontal += 5;
+            }
+            else if (leftPressed && paddleHorizontal > 0) {
+                paddleHorizontal -= 5;
+            }
+
+            // Xử lý di chuyển của thanh đỡ dọc
+            if (rightPressed && paddleVertical < canvas.height - paddleHeightVertical) {
+                paddleVertical += 5;
+            }
+            else if (leftPressed && paddleVertical > 0) {
+                paddleVertical -= 5;
+            }
+
+            drawLives();
+            drawBricks();
+            collisionDetection();
+            drawScore();
+        }
+
+        animate();
 
     </script>
 </body>
