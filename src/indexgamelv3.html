@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"
+        integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../style/styleIndex/styleIndex.css">
+    <link rel="shortcut icon" href="../image/Logo_HCMUAF.svg" type="image/x-icon">
+    <title>Pong Ping</title>
+</head>
+
+<body>
+    <div id="Templete">
+        <div class="underPanel underPanelLeft">
+        </div>
+        <div class="underPanel underPanelRight">
+        </div>
+        <div class="iconDecorate iconDecorate-left">
+            <div>
+                <div>
+                    <div>
+                        <div>
+                            <div>
+                                <div>
+                                    <div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="iconDecorate iconDecorate-right">
+            <div>
+                <div>
+                    <div>
+                        <div>
+                            <div>
+                                <div>
+                                    <div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="GamingMachine">
+            <div id="LeftArea">
+                <canvas id="Score" width="" height=""></canvas>
+                <div id="PanelControl">
+                    <div id="BtnControl">
+                        <div class="direction top" id="btnTop"><i class=" btnicon fa-solid fa-circle-up"></i></div>
+                        <div class="direction right" id="btnRight"><i class="btnicon fa-solid fa-circle-right"></i>
+                        </div>
+                        <div class="direction bottom" id="btnBottom"><i class="btnicon fa-solid fa-circle-down"></i>
+                        </div>
+                        <div class="direction left" id="btnLeft"><i class="btnicon fa-solid fa-circle-left"></i></div>
+                    </div>
+                </div>
+            </div>
+            <div id="CenterArea">
+                <canvas id="myGame" width="994.667" height="547.556" id="574"></canvas>
+            </div>
+            <div id="RightArea">
+                <canvas id="Heart" width="" height=""></canvas>
+                <div id="PanelControl">
+                    <div id="BtnSubmit">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="../event/event.js"></script>
+    <script>
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBall();
+            drawPaddleHorizontal()
+            x += dx;
+            y += dy;
+            if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
+                dx = -dx;
+            }
+            if (y + dy < ballRadius) {
+                dy = -dy;
+            }
+            else if (y + dy > canvas.height - ballRadius - paddleHeightHorizontal + 10) {
+                if (x > paddleHorizontal - ballRadius && x < paddleHorizontal + paddleWidthHorizontal + ballRadius) {
+                    dy = -dy;
+                }
+                else {
+                    if (Math.abs(x - (paddleHorizontal + paddleWidthHorizontal / 2)) <= ballRadius &&
+                        y + ballRadius >= canvas.height - paddleHeightHorizontal) {
+                        dy = -dy; // Quả bóng nảy lại khi cách thanh đỡ 2 pixel ở mọi mặt
+                    }
+                    else {
+                        lives--;
+                        if (!lives) {
+                            alert("GAME OVER");
+                            lives = 0;
+                            clearInterval(BallFly);
+
+                        }
+                        else {
+                            x = canvas.width / 2;
+                            y = canvas.height - 30;
+                            dx = 2;
+                            dy = -2;
+                            paddleHorizontal = (canvas.width - paddleWidthHorizontal) / 2;
+                        }
+                    }
+
+                }
+            }
+            if (rightPressed && paddleHorizontal < canvas.width - paddleWidthHorizontal) {
+                paddleHorizontal += 5;
+            }
+            else if (leftPressed && paddleHorizontal > 0) {
+                paddleHorizontal -= 5;
+            }
+            drawLives()
+            drawBricks()
+            collisionDetection()
+            drawScore()
+            drawLineLimit()
+            // dropBricks()
+           
+           
+        }
+        var pause = setInterval(moveBricksDown, 10000);
+        animate();
+        
+    </script>
+</body>
+
+</html>

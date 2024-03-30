@@ -60,7 +60,7 @@ function drawBall() {
 //Kích thước thanh đỡ ngang
 var paddleHeightHorizontal = 10;
 var paddleWidthHorizontal = 100;
-var paddleHorizontal = (canvas.width - paddleWidthHorizontal) / 2;//Tọa độ ban đầu của thanh đỡ ở trục x
+var paddleHorizontal = (canvas.width - paddleWidthHorizontal) / 2;//Tọa độ ban đầu của thanh đỡ 
 function drawPaddleHorizontal() {
   ctx.beginPath();
   ctx.rect(paddleHorizontal, canvas.height - paddleHeightHorizontal, paddleWidthHorizontal, paddleHeightHorizontal);
@@ -136,7 +136,6 @@ function drawBricks() {
         ctx.beginPath();
         ctx.rect(brickX, brickY, brickWidth, brickHeight);
         ctx.fillStyle = "violet";
-        ctx.strokeStyle = "black"
         ctx.strokeStyle = "white";
         ctx.lineWidth = 2;
         ctx.stroke();
@@ -188,10 +187,33 @@ function drawLives() {
   ctx_Right.textAlign = "center";
   ctx_Right.fillText("Lives: " + lives, canvasRight.width / 2, (canvasRight.height + 37) / 2);
 }
+var lengthLine = canvas.width
+var weightLine = 5
+var locationY = 450
+function drawLineLimit() {
+  ctx.beginPath();
+  ctx.rect(0, locationY, lengthLine, weightLine);
+  ctx.fillStyle = "violet";
+  ctx.fill();
+  ctx.closePath();
+}
 function animate() {
   draw();
   requestAnimationFrame(animate);
 }
+function moveBricksDown() {
+  var brickArrayHeight = brickRowCount * (brickHeight + brickPadding) - brickPadding;
+  brickOffsetTop += 10;
+  if (brickOffsetTop + brickArrayHeight === locationY) {
+    alert("GAME OVER");
+    lives = 0;
+    clearInterval(pause);
+  }
+}
+
+// Gọi hàm moveBricksDown mỗi 10 giây (10000 miliseconds)
+
+
 
 
 
