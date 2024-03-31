@@ -83,7 +83,8 @@
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawBall();
-            drawPaddleHorizontal()
+            drawBall();
+            drawPaddleHorizontalLV3()
             x += dx;
             y += dy;
             if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
@@ -131,13 +132,9 @@
             collisionDetection()
             drawScore()
             drawLineLimit()
-            // dropBricks()
-           
-           
         }
-        var pause = setInterval(moveBricksDown, 10000);
+        moveBricksDown()
         animate();
-        
     </script>
 </body>
 

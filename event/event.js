@@ -39,7 +39,7 @@ var lives = 3;
 //Vị trí ban đầu của quả bóng
 var x = canvas.width / 2;
 var y = canvas.height - 30;
-var ballRadius = 10;//Bán kinh của quả bóng
+var ballRadius = 15;//Bán kinh của quả bóng
 //Độ dịch chuyển của quả bóng sau 1ms
 var dx = 2;
 var dy = -2;
@@ -53,7 +53,16 @@ function drawBall() {
 
 }
 //-------------------------------------------------------------------------
-
+var paddleHeightHorizontalLV2 = 10;
+var paddleWidthHorizontalLV3 = 150;
+var paddleHorizontal = (canvas.width - paddleWidthHorizontal) / 2;//Tọa độ ban đầu của thanh đỡ 
+function drawPaddleHorizontalLV3() {
+  ctx.beginPath();
+  ctx.rect(paddleHorizontal, canvas.height - paddleHeightHorizontal, paddleWidthHorizontal, paddleHeightHorizontal);
+  ctx.fillStyle = "violet";
+  ctx.fill();
+  ctx.closePath();
+}
 
 
 //Vẽ thanh đỡ ngang
@@ -124,13 +133,36 @@ for (c = 0; c < brickColumnCount; c++) {
     bricks[c][r] = { x: 0, y: 0, status: 1 };
   }
 }
-//Vẽ các khối gạch
+//Vẽ các khối gạch lv1
 function drawBricks() {
   for (c = 0; c < brickColumnCount; c++) {
     for (r = 0; r < brickRowCount; r++) {
       if (bricks[c][r].status == 1) {
         var brickX = (c * (brickWidth + brickPadding)) + brickOffsetLeft;
         var brickY = (r * (brickHeight + brickPadding)) + brickOffsetTop;
+        bricks[c][r].x = brickX;
+        bricks[c][r].y = brickY;
+        ctx.beginPath();
+        ctx.rect(brickX, brickY, brickWidth, brickHeight);
+        ctx.fillStyle = "violet";
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.fill();
+        ctx.closePath();
+      }
+    }
+  }
+}
+//Vẽ các khối gạch lv2
+var brickOffsetLeftLV2 = 100;
+var brickOffsetTopLV2 = 100;
+function drawBricksLV2() {
+  for (c = 0; c < brickColumnCount; c++) {
+    for (r = 0; r < brickRowCount; r++) {
+      if (bricks[c][r].status == 1) {
+        var brickX = (c * (brickWidth + brickPadding)) + brickOffsetLeftLV2;
+        var brickY = (r * (brickHeight + brickPadding)) + brickOffsetTopLV2;
         bricks[c][r].x = brickX;
         bricks[c][r].y = brickY;
         ctx.beginPath();
@@ -157,7 +189,10 @@ function collisionDetection() {
           score++;
           if (score === brickRowCount * brickColumnCount) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx_Left.clearRect(0, 0, canvasLeft.width, canvasLeft.height);
+            ctx_Left.fillText("Score: " +  brickRowCount * brickColumnCount, canvasLeft.width / 2, canvasLeft.height / 2);
             clearInterval(BallFly);
+            alert("You Winner!!")
           }
         }
       }
@@ -192,9 +227,11 @@ var weightLine = 5
 var locationY = 450
 function drawLineLimit() {
   ctx.beginPath();
-  ctx.rect(0, locationY, lengthLine, weightLine);
-  ctx.fillStyle = "violet";
-  ctx.fill();
+  ctx.moveTo(0, locationY); // Đặt điểm bắt đầu của đường thẳng
+  ctx.lineTo(lengthLine, locationY); // Vẽ đường thẳng từ (0, locationY) đến (lengthLine, locationY)
+  ctx.lineWidth = weightLine; // Đặt độ dày của đường thẳng
+  ctx.strokeStyle = "violet"; // Đặt màu sắc của đường thẳng thành tím
+  ctx.stroke(); // Vẽ đường thẳng
   ctx.closePath();
 }
 function animate() {
@@ -202,16 +239,29 @@ function animate() {
   requestAnimationFrame(animate);
 }
 function moveBricksDown() {
-  var brickArrayHeight = brickRowCount * (brickHeight + brickPadding) - brickPadding;
   brickOffsetTop += 10;
-  if (brickOffsetTop + brickArrayHeight === locationY) {
-    alert("GAME OVER");
-    lives = 0;
-    clearInterval(pause);
+  
+  // Kiểm tra xem có viên gạch nào đụng trúng đường line không
+  for (var c = 0; c < brickColumnCount; c++) {
+    for (var r = 0; r < brickRowCount; r++) {
+      var brick = bricks[c][r];
+      if (brick.status === 1 && brick.y + brickHeight >= locationY) {
+        // Nếu có, kết thúc trò chơi
+        alert("GAME OVER");
+        lives = 0;
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        clearInterval(BallFly);
+        clearInterval(pause);
+        return;
+      }
+    }
   }
+  
+  // Gọi lại moveBricksDown sau 5 giây
+ var pause = setTimeout(moveBricksDown, 5000);
 }
 
-// Gọi hàm moveBricksDown mỗi 10 giây (10000 miliseconds)
+
 
 
 

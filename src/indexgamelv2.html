@@ -158,14 +158,14 @@
 
             // Xử lý di chuyển của thanh đỡ dọc
             if (rightPressed && paddleVertical < canvas.height - paddleHeightVertical) {
-                paddleVertical += 5;
+                paddleVertical += 2.4;
             }
             else if (leftPressed && paddleVertical > 0) {
-                paddleVertical -= 5;
+                paddleVertical -= 2.4;
             }
 
             drawLives();
-            drawBricks();
+            drawBricksLV2();
             collisionDetection();
             drawScore();
         }
