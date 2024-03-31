@@ -19,7 +19,7 @@ var brickColumnCount = 8;//Số cột
 //Kích thước của viên gạch
 var brickWidth = 75;
 var brickHeight = 20;
-var brickPadding = 10;
+var brickPadding = 5;
 //Vị trí của ma trận gạch
 var brickOffsetTop = 100;
 var brickOffsetLeft = (canvas.width - (brickWidth + brickPadding) * brickColumnCount) / 2;
@@ -190,7 +190,7 @@ function collisionDetection() {
           if (score === brickRowCount * brickColumnCount) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx_Left.clearRect(0, 0, canvasLeft.width, canvasLeft.height);
-            ctx_Left.fillText("Score: " +  brickRowCount * brickColumnCount, canvasLeft.width / 2, canvasLeft.height / 2);
+            ctx_Left.fillText("Score: " + brickRowCount * brickColumnCount, canvasLeft.width / 2, canvasLeft.height / 2);
             clearInterval(BallFly);
             alert("You Winner!!")
           }
@@ -240,7 +240,7 @@ function animate() {
 }
 function moveBricksDown() {
   brickOffsetTop += 10;
-  
+
   // Kiểm tra xem có viên gạch nào đụng trúng đường line không
   for (var c = 0; c < brickColumnCount; c++) {
     for (var r = 0; r < brickRowCount; r++) {
@@ -256,10 +256,82 @@ function moveBricksDown() {
       }
     }
   }
-  
+
   // Gọi lại moveBricksDown sau 5 giây
- var pause = setTimeout(moveBricksDown, 5000);
+  var pause = setTimeout(moveBricksDown, 5000);
 }
+var bricksLV4 = [];
+
+// Khởi tạo mảng các viên gạch và thiết lập các thuộc tính x, y và status
+for (var c = 0; c < brickColumnCount; c++) {
+  bricksLV4[c] = [];
+  for (var r = 0; r < brickRowCount; r++) {
+    bricksLV4[c][r] = { x: 0, y: 0, status: 2 }; // 2: chưa va chạm, 1: va chạm lần 1, 0: đã tiêu diệt
+  }
+}
+
+function drawBricksLV4() {
+  for (var c = 0; c < brickColumnCount; c++) {
+    for (var r = 0; r < brickRowCount; r++) {
+      var brick = bricksLV4[c][r];
+      if (brick.status == 2) {
+        var brickX = (c * (brickWidth + brickPadding)) + brickOffsetLeft;
+        var brickY = (r * (brickHeight + brickPadding)) + brickOffsetTop;
+        brick.x = brickX;
+        brick.y = brickY;
+        ctx.beginPath();
+        ctx.rect(brickX, brickY, brickWidth, brickHeight);
+        ctx.fillStyle = "pink";
+        ctx.strokeStyle = "red";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.fill();
+        ctx.closePath();
+      } else if (brick.status == 1) {
+        // Vẽ border trắng cho viên gạch
+        ctx.beginPath();
+        ctx.rect(brick.x, brick.y, brickWidth, brickHeight);
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.closePath();
+
+        // Đổi màu của viên gạch thành tím khi bị va chạm lần đầu tiên
+        ctx.fillStyle = "violet";
+        ctx.fillRect(brick.x, brick.y, brickWidth, brickHeight);
+      }
+    }
+  }
+}
+
+function collisionDetectionLV4() {
+  for (var c = 0; c < brickColumnCount; c++) {
+    for (var r = 0; r < brickRowCount; r++) {
+      var brick = bricksLV4[c][r];
+      if (brick.status == 2) {
+        if (x > brick.x && x < brick.x + brickWidth && y > brick.y && y < brick.y + brickHeight) {
+          dy = -dy;
+          brick.status = 1;
+        }
+      } else if (brick.status == 1) {
+        if (x > brick.x && x < brick.x + brickWidth && y > brick.y && y < brick.y + brickHeight) {
+          dy = -dy;
+          brick.status = 0;
+          score++;
+          if (score === brickRowCount * brickColumnCount) {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx_Left.clearRect(0, 0, canvasLeft.width, canvasLeft.height);
+            ctx_Left.fillText("Score: " + brickRowCount * brickColumnCount, canvasLeft.width / 2, canvasLeft.height / 2);
+            clearInterval(BallFly);
+            alert("You Winner!!");
+          }
+        }
+      }
+    }
+  }
+}
+
+
 
 
 
