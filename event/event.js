@@ -19,7 +19,7 @@ var brickColumnCount = 8;//Số cột
 //Kích thước của viên gạch
 var brickWidth = 75;
 var brickHeight = 20;
-var brickPadding = 5;
+var brickPadding = 20;
 //Vị trí của ma trận gạch
 var brickOffsetTop = 100;
 var brickOffsetLeft = (canvas.width - (brickWidth + brickPadding) * brickColumnCount) / 2;
@@ -39,10 +39,12 @@ var lives = 3;
 //Vị trí ban đầu của quả bóng
 var x = canvas.width / 2;
 var y = canvas.height - 30;
+
 var ballRadius = 15;//Bán kinh của quả bóng
 //Độ dịch chuyển của quả bóng sau 1ms
-var dx = 2;
-var dy = -2;
+var dx = 3;
+var dy = -3;
+
 function drawBall() {
   ctx.beginPath();
   ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
@@ -145,15 +147,13 @@ function drawBricks() {
         ctx.beginPath();
         ctx.rect(brickX, brickY, brickWidth, brickHeight);
         ctx.fillStyle = "violet";
-        ctx.strokeStyle = "white";
-        ctx.lineWidth = 2;
-        ctx.stroke();
         ctx.fill();
         ctx.closePath();
       }
     }
   }
 }
+
 //Vẽ các khối gạch lv2
 var brickOffsetLeftLV2 = 100;
 var brickOffsetTopLV2 = 100;
@@ -183,22 +183,24 @@ function collisionDetection() {
     for (r = 0; r < brickRowCount; r++) {
       var b = bricks[c][r];
       if (b.status == 1) {
-        if (x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight) {
+        // Kiểm tra xem quả bóng có chạm vào viên gạch không
+        if (x + ballRadius > b.x && x - ballRadius < b.x + brickWidth && y + ballRadius > b.y && y - ballRadius < b.y + brickHeight) {
           dy = -dy;
           b.status = 0;
           score++;
-          if (score === brickRowCount * brickColumnCount) {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx_Left.clearRect(0, 0, canvasLeft.width, canvasLeft.height);
-            ctx_Left.fillText("Score: " + brickRowCount * brickColumnCount, canvasLeft.width / 2, canvasLeft.height / 2);
-            clearInterval(BallFly);
-            alert("You Winner!!")
+          if (score == brickRowCount * brickColumnCount) {
+            alert("YOU WIN, CONGRATULATIONS!");
+            document.location.reload();
           }
         }
       }
     }
   }
 }
+
+
+
+
 //Tính điểm 
 function drawScore() {
   ctx_Left.clearRect(0, 0, canvasLeft.width, canvasLeft.height);
@@ -266,7 +268,7 @@ var bricksLV4 = [];
 for (var c = 0; c < brickColumnCount; c++) {
   bricksLV4[c] = [];
   for (var r = 0; r < brickRowCount; r++) {
-    bricksLV4[c][r] = { x: 0, y: 0, status: 2 }; // 2: chưa va chạm, 1: va chạm lần 1, 0: đã tiêu diệt
+    bricksLV4[c][r] = { x: 0, y: 0, status: 1 }; // 2: chưa va chạm, 1: va chạm lần 1, 0: đã tiêu diệt
   }
 }
 
@@ -274,7 +276,7 @@ function drawBricksLV4() {
   for (var c = 0; c < brickColumnCount; c++) {
     for (var r = 0; r < brickRowCount; r++) {
       var brick = bricksLV4[c][r];
-      if (brick.status == 2) {
+      if (brick.status == 1) {
         var brickX = (c * (brickWidth + brickPadding)) + brickOffsetLeft;
         var brickY = (r * (brickHeight + brickPadding)) + brickOffsetTop;
         brick.x = brickX;
@@ -287,7 +289,8 @@ function drawBricksLV4() {
         ctx.stroke();
         ctx.fill();
         ctx.closePath();
-      } else if (brick.status == 1) {
+      }
+      else if (brick.status == 2) {
         // Vẽ border trắng cho viên gạch
         ctx.beginPath();
         ctx.rect(brick.x, brick.y, brickWidth, brickHeight);
@@ -308,15 +311,15 @@ function collisionDetectionLV4() {
   for (var c = 0; c < brickColumnCount; c++) {
     for (var r = 0; r < brickRowCount; r++) {
       var brick = bricksLV4[c][r];
-      if (brick.status == 2) {
+      if (brick.status == 1) { // Kiểm tra chỉ khi trạng thái là 1
         if (x > brick.x && x < brick.x + brickWidth && y > brick.y && y < brick.y + brickHeight) {
           dy = -dy;
-          brick.status = 1;
+          brick.status = 2; // Cập nhật trạng thái thành 2 sau khi va chạm lần đầu
         }
-      } else if (brick.status == 1) {
+      } else if (brick.status == 2) { // Kiểm tra khi trạng thái là 2
         if (x > brick.x && x < brick.x + brickWidth && y > brick.y && y < brick.y + brickHeight) {
           dy = -dy;
-          brick.status = 0;
+          brick.status = 0; // Xóa viên gạch sau khi va chạm lần thứ hai
           score++;
           if (score === brickRowCount * brickColumnCount) {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -330,6 +333,7 @@ function collisionDetectionLV4() {
     }
   }
 }
+
 
 
 
