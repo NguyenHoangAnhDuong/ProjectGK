@@ -114,7 +114,7 @@ body #Templete #GamingMachine #LeftArea #PanelControl #BtnControl .left {
 body #Templete #GamingMachine #CenterArea {
   width: 60%;
   background-size: cover;
-  background-image: url(../../image/bg.jpg);
+  background-color: black;
   background-repeat: no-repeat;
   background-position: auto auto;
   box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
@@ -148,4 +148,6 @@ body #Templete #GamingMachine #RightArea #PanelControl #BtnSubmit {
 }
 body #Templete #GamingMachine #RightArea #PanelControl #BtnSubmit:hover {
   scale: 0.95;
-}/*# sourceMappingURL=styleIndex.css.map */
+}
+
+/*# sourceMappingURL=styleIndex.css.map */

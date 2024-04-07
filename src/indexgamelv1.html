@@ -82,24 +82,24 @@
     <script>
         function draw() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawBall();
+            drawBall2(ball1);
             drawPaddleHorizontal()
-            x += dx;
-            y += dy;
-            if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) {
-                dx = -dx;
+            ball1.x +=  ball1.dx;
+            ball1.y +=  ball1.dy;
+            if ( ball1.x +  ball1.dx > canvas.width -  ball1.ballRadius ||  ball1.x +  ball1.dx <  ball1.ballRadius) {
+                ball1.dx = - ball1.dx;
             }
-            if (y + dy < ballRadius) {
+            if ( ball1.y +  ball1.dy <  ball1.ballRadius) {
                 dy = -dy;
             }
-            else if (y + dy > canvas.height - ballRadius - paddleHeightHorizontal + 10) {
-                if (x > paddleHorizontal - ballRadius && x < paddleHorizontal + paddleWidthHorizontal + ballRadius) {
+            else if ( ball1.y +  ball1.dy > canvas.height -  ball1.ballRadius - paddleHeightHorizontal + 10) {
+                if ( ball1.x > paddleHorizontal -  ball1.ballRadius &&  ball1.x < paddleHorizontal + paddleWidthHorizontal +  ball1.ballRadius) {
                     dy = -dy;
                 }
                 else {
-                    if (Math.abs(x - (paddleHorizontal + paddleWidthHorizontal / 2)) <= ballRadius &&
-                        y + ballRadius >= canvas.height - paddleHeightHorizontal) {
-                        dy = -dy; // Quả bóng nảy lại khi cách thanh đỡ 2 pixel ở mọi mặt
+                    if (Math.abs( ball1.x - (paddleHorizontal + paddleWidthHorizontal / 2)) <=  ball1.ballRadius &&
+                    ball1.y +  ball1.ballRadius >= canvas.height - paddleHeightHorizontal) {
+                        ball1.dy = - ball1.dy; // Quả bóng nảy lại khi cách thanh đỡ 2 pixel ở mọi mặt
                     }
                     else {
                         lives--;
@@ -110,16 +110,17 @@
 
                         }
                         else {
-                            x = canvas.width / 2;
-                            y = canvas.height - 30;
-                            dx = 3;
-                            dy = -3;
+                            ball1.x = canvas.width / 2;
+                            ball1.y = canvas.height - 30;
+                            ball1.dx = 3;
+                            ball1.dy = -3;
                             paddleHorizontal = (canvas.width - paddleWidthHorizontal) / 2;
                         }
                     }
 
                 }
             }
+            
             if (rightPressed && paddleHorizontal < canvas.width - paddleWidthHorizontal) {
                 paddleHorizontal += 5;
             }
@@ -128,7 +129,7 @@
             }
             drawLives()
             drawBricks()
-            collisionDetection()
+            collisionDetection(ball1)
             drawScore()
         }
         
