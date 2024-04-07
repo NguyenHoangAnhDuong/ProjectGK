@@ -80,61 +80,7 @@
     </div>
     <script src="../event/event.js"></script>
     <script>
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawBall2(ball1);
-            drawPaddleHorizontal()
-            ball1.x +=  ball1.dx;
-            ball1.y +=  ball1.dy;
-            if ( ball1.x +  ball1.dx > canvas.width -  ball1.ballRadius ||  ball1.x +  ball1.dx <  ball1.ballRadius) {
-                ball1.dx = - ball1.dx;
-            }
-            if ( ball1.y +  ball1.dy <  ball1.ballRadius) {
-                dy = -dy;
-            }
-            else if ( ball1.y +  ball1.dy > canvas.height -  ball1.ballRadius - paddleHeightHorizontal + 10) {
-                if ( ball1.x > paddleHorizontal -  ball1.ballRadius &&  ball1.x < paddleHorizontal + paddleWidthHorizontal +  ball1.ballRadius) {
-                    dy = -dy;
-                }
-                else {
-                    if (Math.abs( ball1.x - (paddleHorizontal + paddleWidthHorizontal / 2)) <=  ball1.ballRadius &&
-                    ball1.y +  ball1.ballRadius >= canvas.height - paddleHeightHorizontal) {
-                        ball1.dy = - ball1.dy; // Quả bóng nảy lại khi cách thanh đỡ 2 pixel ở mọi mặt
-                    }
-                    else {
-                        lives--;
-                        if (!lives) {
-                            alert("GAME OVER");
-                            lives = 0;
-                            clearInterval(BallFly);
-
-                        }
-                        else {
-                            ball1.x = canvas.width / 2;
-                            ball1.y = canvas.height - 30;
-                            ball1.dx = 3;
-                            ball1.dy = -3;
-                            paddleHorizontal = (canvas.width - paddleWidthHorizontal) / 2;
-                        }
-                    }
-
-                }
-            }
-            
-            if (rightPressed && paddleHorizontal < canvas.width - paddleWidthHorizontal) {
-                paddleHorizontal += 5;
-            }
-            else if (leftPressed && paddleHorizontal > 0) {
-                paddleHorizontal -= 5;
-            }
-            drawLives()
-            drawBricks()
-            collisionDetection(ball1)
-            drawScore()
-        }
-        
-
-        animate();
+        animateGameLv1()
     </script>
 </body>
 
