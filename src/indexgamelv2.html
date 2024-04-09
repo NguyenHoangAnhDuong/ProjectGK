@@ -80,9 +80,66 @@
     </div>
     <script src="../event/event.js"></script>
     <script>
-        
-        animateGameLv2()
+        function drawGameLV1() {
+            if (!isLv1Running) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawBall2(ball1);
+            drawPaddleHorizontal()
+            ball1.x += ball1.dx;
+            ball1.y += ball1.dy;
+            if (ball1.x + ball1.dx > canvas.width - ball1.ballRadius || ball1.x + ball1.dx < ball1.ballRadius) {
+                ball1.dx = - ball1.dx;
+            }
+            if (ball1.y + ball1.dy < ball1.ballRadius) {
+                ball1.dy = -ball1.dy;
+            }
+            else if (ball1.y + ball1.dy > canvas.height - ball1.ballRadius - paddleHorizontalInGame.height + 10) {
+                if (ball1.x > paddleHorizontal - ball1.ballRadius && ball1.x < paddleHorizontal + paddleHorizontalInGame.width + ball1.ballRadius) {
+                    ball1.dy = -ball1.dy;
+                }
+                else {
+                    if (Math.abs(ball1.x - (paddleHorizontal + paddleHorizontalInGame.width / 2)) <= ball1.ballRadius &&
+                        ball1.y + ball1.ballRadius >= canvas.height - paddleHorizontalInGame.height) {
+                        ball1.dy = - ball1.dy; // Quả bóng nảy lại khi cách thanh đỡ 2 pixel ở mọi mặt
+                    }
+                    else {
+                        lives--;
+                        if (!lives) {
+                            alert("GAME OVER");
+                            lives = 0;
+                            clearInterval(BallFly);
 
+                        }
+                        else {
+                            ball1.x = canvas.width / 2;
+                            ball1.y = canvas.height - 30;
+                            ball1.dx = 1;
+                            ball1.dy = -1;
+                            paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
+                        }
+                    }
+
+                }
+            }
+
+            if (rightPressed && paddleHorizontal < canvas.width - paddleHorizontalInGame.width) {
+                paddleHorizontal += 5;
+            }
+            else if (leftPressed && paddleHorizontal > 0) {
+                paddleHorizontal -= 5;
+            }
+            drawLives()
+            drawBricks()
+            collisionDetection(ball1)
+            drawScore()
+            console.log(ball1.dx, ball1.dy)
+        }
+        function animateGameLv1() {
+            stopAllLevels()
+            isLv1Running = true;
+            drawGameLV1();
+            animationFrame = requestAnimationFrame(animateGameLv1);
+        }
     </script>
 </body>
 

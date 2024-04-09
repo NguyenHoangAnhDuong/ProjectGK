@@ -1,4 +1,52 @@
 //21130328-Nguyễn Hoàng Ánh Dương
+let animationFrame;
+let isLv1Running = false;
+let isLv2Running = false;
+let isLv3Running = false;
+let isLv4Running = false;
+function stopAllLevels() {
+  isLv1Running = false;
+  isLv2Running = false;
+  isLv3Running = false;
+  isLv4Running = false;
+}
+document.getElementById('btnLv1').addEventListener('click', () => {
+  flag = true
+  resetLV1()
+  cancelAnimationFrame(animationFrame); // Hủy bỏ vòng lặp vẽ hiện tại trước khi bắt đầu mới
+  animateGameLv1();
+});
+
+document.getElementById('btnLv2').addEventListener('click', () => {
+  flag = true
+  resetLV2()
+  cancelAnimationFrame(animationFrame); // Hủy bỏ vòng lặp vẽ hiện tại trước khi bắt đầu mới
+  animateGameLv2();
+});
+
+document.getElementById('btnLv3').addEventListener('click', () => {
+  flag = true
+  resetLV3()
+  cancelAnimationFrame(animationFrame); // Hủy bỏ vòng lặp vẽ hiện tại trước khi bắt đầu mới
+  animateGameLv3();
+});
+
+document.getElementById('btnLv4').addEventListener('click', () => {
+  flag = true
+  resetLV4()
+  cancelAnimationFrame(animationFrame); // Hủy bỏ vòng lặp vẽ hiện tại trước khi bắt đầu mới
+  animateGameLv4();
+});
+function changeColor(btnId) {
+  var buttons = document.querySelectorAll('.listBtnLevel button');
+  buttons.forEach(function(button) {
+      if (button.id === btnId) {
+          button.style.backgroundColor = "green";
+      } else {
+          button.style.backgroundColor = ""; // Reset background color to default
+      }
+  });
+}
 
 //Lấy các thẻ canvans
 //Thẻ canvans bên trái
@@ -25,7 +73,7 @@ var brick = {
 //Vị trí của các khối gạch
 var brickOffset = {
   top: 100,
-  left: (canvas.width - (brick.brickWidth + brick.brickPadding)* matrixBricks.brickColumnCount) / 2
+  left: (canvas.width - (brick.brickWidth + brick.brickPadding) * matrixBricks.brickColumnCount) / 2
 }
 
 //Mảng các khối gạch
@@ -56,14 +104,14 @@ var paddleHorizontalTop = {
   width: paddleHorizontalInGame.width,
   height: paddleHorizontalInGame.height
 }
-var LocationPaddleHorizontalTop = (canvas.width - paddleHorizontalInGame.width)/2;
+var LocationPaddleHorizontalTop = (canvas.width - paddleHorizontalInGame.width) / 2;
 var paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
 //Thanh đỡ dọc
-var  paddleVerticalInGame = {
+var paddleVerticalInGame = {
   width: 10,
   height: 100
 }
-var LocationPaddleVerticalRight = (canvas.height - paddleVerticalInGame.height)/2;
+var LocationPaddleVerticalRight = (canvas.height - paddleVerticalInGame.height) / 2;
 var paddleVertical = (canvas.height - paddleVerticalInGame.height) / 2;
 
 //Đặt mặt định nhấn giữ trái phải
@@ -73,8 +121,16 @@ var topPressed = false;
 var bottomPressed = false;
 
 //Vị trí của các viên gạch ở LV2
-var brickOffsetLeftLV2 = 100;
-var brickOffsetTopLV2 = 100;
+var brickOffsetLV2 = {
+  top: 100,
+  left: (canvas.width - (brick.brickWidth + brick.brickPadding) * matrixBricks.brickColumnCount) / 2
+}
+//Vị trí của các viên gạch ở LV4
+var brickOffsetLV4 = {
+  top: 180,
+  left: (canvas.width - (brick.brickWidth + brick.brickPadding) * matrixBricks.brickColumnCount) / 2
+}
+
 //Đường giới hạn ở LV3
 var lineLimit = {
   length: canvas.width,
@@ -86,7 +142,7 @@ var bricksLV4 = [];
 for (var c = 0; c < matrixBricks.brickColumnCount; c++) {
   bricksLV4[c] = [];
   for (var r = 0; r < matrixBricks.brickRowCount; r++) {
-    bricksLV4[c][r] = { x: 0, y: 0, status: 1 }; // 2: chưa va chạm, 1: va chạm lần 1, 0: đã tiêu diệt
+    bricksLV4[c][r] = { x: 0, y: 0, status: 1 };
   }
 }
 
@@ -123,7 +179,6 @@ function drawBall2(ball) {
   ctx.stroke();
   ctx.fill();
   ctx.closePath();
-  console.log(ball.color)
 }
 function drawPaddleHorizontalLV3() {
   ctx.beginPath();
@@ -142,7 +197,7 @@ function drawPaddleHorizontal() {
 }
 function drawPaddleHorizontalTop() {
   ctx.beginPath();
-  ctx.rect(LocationPaddleHorizontalTop, 0 , paddleHorizontalTop.width, paddleHorizontalTop.height);
+  ctx.rect(LocationPaddleHorizontalTop, 0, paddleHorizontalTop.width, paddleHorizontalTop.height);
   ctx.fillStyle = "violet";
   ctx.fill();
   ctx.closePath();
@@ -246,7 +301,6 @@ function drawBricks() {
         ctx.fillStyle = "violet";
         ctx.fill();
         ctx.closePath();
-        console.log(123)
       }
     }
   }
@@ -255,10 +309,30 @@ function drawBricksLV2() {
   for (c = 0; c < matrixBricks.brickColumnCount; c++) {
     for (r = 0; r < matrixBricks.brickRowCount; r++) {
       if (bricks[c][r].status == 1) {
-        var brickX = (c * (brick.brickWidth + brick.brickPadding)) + brickOffsetLeftLV2;
-        var brickY = (r * (brick.brickHeight + brick.brickPadding)) + brickOffsetTopLV2;
+        var brickX = (c * (brick.brickWidth + brick.brickPadding)) + brickOffsetLV2.left;
+        var brickY = (r * (brick.brickHeight + brick.brickPadding)) + brickOffsetLV2.top;
         bricks[c][r].x = brickX;
         bricks[c][r].y = brickY;
+        ctx.beginPath();
+        ctx.rect(brickX, brickY, brick.brickWidth, brick.brickHeight);
+        ctx.fillStyle = "violet";
+        ctx.strokeStyle = "white";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.fill();
+        ctx.closePath();
+      }
+    }
+  }
+}
+function drawBricksLV4() {
+  for (c = 0; c < matrixBricks.brickColumnCount; c++) {
+    for (r = 0; r < matrixBricks.brickRowCount; r++) {
+      if (bricksLV4[c][r].status == 1) {
+        var brickX = (c * (brick.brickWidth + brick.brickPadding)) + brickOffsetLV4.left;
+        var brickY = (r * (brick.brickHeight + brick.brickPadding)) + brickOffsetLV4.top;
+        bricksLV4[c][r].x = brickX;
+        bricksLV4[c][r].y = brickY;
         ctx.beginPath();
         ctx.rect(brickX, brickY, brick.brickWidth, brick.brickHeight);
         ctx.fillStyle = "violet";
@@ -275,6 +349,24 @@ function collisionDetection(ball) {
   for (c = 0; c < matrixBricks.brickColumnCount; c++) {
     for (r = 0; r < matrixBricks.brickRowCount; r++) {
       var b = bricks[c][r];
+      if (b.status == 1) {
+        if (ball.x + ball.ballRadius > b.x && ball.x - ball.ballRadius < b.x + brick.brickWidth && ball.y + ball.ballRadius > b.y && ball.y - ball.ballRadius < b.y + brick.brickHeight) {
+          ball.dy = -ball.dy;
+          b.status = 0;
+          score++;
+          if (score == matrixBricks.brickRowCount * matrixBricks.brickColumnCount) {
+            alert("YOU WIN, CONGRATULATIONS!");
+            document.location.reload();
+          }
+        }
+      }
+    }
+  }
+}
+function collisionDetectionLV4(ball) {
+  for (c = 0; c < matrixBricks.brickColumnCount; c++) {
+    for (r = 0; r < matrixBricks.brickRowCount; r++) {
+      var b = bricksLV4[c][r];
       if (b.status == 1) {
         if (ball.x + ball.ballRadius > b.x && ball.x - ball.ballRadius < b.x + brick.brickWidth && ball.y + ball.ballRadius > b.y && ball.y - ball.ballRadius < b.y + brick.brickHeight) {
           ball.dy = -ball.dy;
@@ -353,11 +445,9 @@ function collisionDetectionBall2(ball) {
   }
 }
 
-function animateGameLv1() {
-  drawGameLV1();
-  requestAnimationFrame(animateGameLv1);
-}
+
 function drawGameLV1() {
+  if (!isLv1Running) return;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBall2(ball1);
   drawPaddleHorizontal()
@@ -389,8 +479,8 @@ function drawGameLV1() {
         else {
           ball1.x = canvas.width / 2;
           ball1.y = canvas.height - 30;
-          ball1.dx = 3;
-          ball1.dy = -3;
+          ball1.dx = 1;
+          ball1.dy = -1;
           paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
         }
       }
@@ -408,13 +498,11 @@ function drawGameLV1() {
   drawBricks()
   collisionDetection(ball1)
   drawScore()
+  console.log(ball1.dx, ball1.dy)
+}
 
-}
-function animateGameLv2() {
-  drawGameLV2();
-  requestAnimationFrame(animateGameLv2);
-}
 function drawGameLV2() {
+  if (!isLv2Running) return;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBall2(ball1);
   drawPaddleHorizontal();
@@ -442,8 +530,8 @@ function drawGameLV2() {
       } else {
         ball1.x = canvas.width / 2;
         ball1.y = canvas.height - 30;
-        ball1.dx = 3;
-        ball1.dy = -3;
+        ball1.dx = 1;
+        ball1.dy = -1;
         paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
         paddleVertical = (canvas.height - paddleVerticalInGame.height) / 2;
       }
@@ -459,7 +547,7 @@ function drawGameLV2() {
   if (ball1.y + ball1.dy > canvas.height - ball1.ballRadius - paddleHorizontalInGame.height) {
     if (ball1.x > paddleHorizontal - ball1.ballRadius && ball1.x < paddleHorizontal + paddleHorizontalInGame.width + ball1.ballRadius) {
       ball1.dy = -ball1.dy; // Xử lý va chạm với thanh đỡ ngang
-    } 
+    }
     else {
       // Xử lý khi bóng chạm đáy và không chạm thanh đỡ
       if (Math.abs(ball1.x - (paddleHorizontal + paddleHorizontalInGame.width / 2)) <= ball1.ballRadius &&
@@ -474,8 +562,8 @@ function drawGameLV2() {
         } else {
           ball1.x = canvas.width / 2;
           ball1.y = canvas.height - 30;
-          ball1.dx = 3;
-          ball1.dy = -3;
+          ball1.dx = 1;
+          ball1.dy = -1;
           paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
           paddleVertical = (canvas.height - paddleVerticalInGame.height) / 2;
         }
@@ -502,13 +590,12 @@ function drawGameLV2() {
   drawBricksLV2();
   collisionDetection(ball1);
   drawScore();
+  console.log(ball1.dx, ball1.dy)
 }
 
-function animateGameLv3() {
-  drawGameLV3();
-  requestAnimationFrame(animateGameLv3);
-}
+
 function drawGameLV3() {
+  if (!isLv3Running) return;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBall2(ball1);
   drawBall2(ball2);
@@ -544,8 +631,8 @@ function drawGameLV3() {
         else {
           ball1.x = canvas.width / 2;
           ball1.y = canvas.height - 30;
-          ball1.dx = 3;
-          ball1.dy = -3;
+          ball1.dx = 1;
+          ball1.dy = -1;
           paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
         }
       }
@@ -569,13 +656,11 @@ function drawGameLV3() {
   collisionDetection(ball1)
   collisionDetectionBall2(ball2)
   drawScore()
+  console.log(ball1.dx, ball1.dy)
+}
 
-}
-function animateGameLv4() {
-  drawGameLV4();
-  requestAnimationFrame(animateGameLv4);
-}
 function drawGameLV4() {
+  if (!isLv4Running) return;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
   drawBall2(ball1);
   drawPaddleHorizontal();
@@ -586,129 +671,229 @@ function drawGameLV4() {
   ball1.y += ball1.dy;
   // Xử lý di chuyển của thanh đỡ ngang
   if (ball1.y + ball1.dy > canvas.height - ball1.ballRadius - paddleHorizontalInGame.height) {
-      if (ball1.x > paddleHorizontal - ball1.ballRadius && ball1.x < paddleHorizontal + paddleHorizontalInGame.width + ball1.ballRadius) {
-          ball1.dy = -ball1.dy; // Xử lý va chạm với thanh đỡ ngang
+    if (ball1.x > paddleHorizontal - ball1.ballRadius && ball1.x < paddleHorizontal + paddleHorizontalInGame.width + ball1.ballRadius) {
+      ball1.dy = -ball1.dy; // Xử lý va chạm với thanh đỡ ngang
+    }
+    else {
+      // Xử lý khi bóng chạm đáy và không chạm thanh đỡ
+      if (Math.abs(ball1.x - (paddleHorizontal + paddleHorizontalInGame.width / 2)) <= ball1.ballRadius &&
+        ball1.y + ball1.ballRadius >= canvas.height - paddleHorizontalInGame.height) {
+        ball1.dy = -ball1.dy; // Quả bóng nảy lại khi cách thanh đỡ 2 pixel ở mọi mặt
+      } else {
+        lives--;
+        if (!lives) {
+          alert("GAME OVER");
+          lives = 0;
+          clearInterval(BallFly);
+        } else {
+          ball1.x = canvas.width / 2;
+          ball1.y = canvas.height - 30;
+          ball1.dx = 1;
+          ball1.dy = -1;
+          paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
+          paddleVertical = (canvas.height - paddleVerticalInGame.height) / 2;
+          LocationPaddleHorizontalTop = (canvas.width - paddleHorizontalInGame.width) / 2;
+          LocationPaddleVerticalRight = (canvas.height - paddleVerticalInGame.height) / 2;
+        }
       }
-      else {
-          // Xử lý khi bóng chạm đáy và không chạm thanh đỡ
-          if (Math.abs(ball1.x - (paddleHorizontal + paddleHorizontalInGame.width / 2)) <= ball1.ballRadius &&
-              ball1.y + ball1.ballRadius >= canvas.height - paddleHorizontalInGame.height) {
-              ball1.dy = -ball1.dy; // Quả bóng nảy lại khi cách thanh đỡ 2 pixel ở mọi mặt
-          } else {
-              lives--;
-              if (!lives) {
-                  alert("GAME OVER");
-                  lives = 0;
-                  clearInterval(BallFly);
-              } else {
-                  ball1.x = canvas.width / 2;
-                  ball1.y = canvas.height - 30;
-                  ball1.dx = 1;
-                  ball1.dy = -1;
-                  paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
-                  paddleVertical = (canvas.height - paddleVerticalInGame.height) / 2;
-                  LocationPaddleHorizontalTop = (canvas.width - paddleHorizontalInGame.width) / 2;
-                  LocationPaddleVerticalRight = (canvas.height - paddleVerticalInGame.height) / 2;
-              }
-          }
-      }
+    }
   }
   if (ball1.y + ball1.dy < ball1.ballRadius + paddleHorizontalInGame.height) {
-      if (ball1.x > LocationPaddleHorizontalTop - ball1.ballRadius && ball1.x < LocationPaddleHorizontalTop + paddleHorizontalTop.width + ball1.ballRadius) {
-          ball1.dy = -ball1.dy; // Xử lý va chạm với thanh đỡ đứng
+    if (ball1.x > LocationPaddleHorizontalTop - ball1.ballRadius && ball1.x < LocationPaddleHorizontalTop + paddleHorizontalTop.width + ball1.ballRadius) {
+      ball1.dy = -ball1.dy; // Xử lý va chạm với thanh đỡ đứng
+    }
+    else {
+      // Xử lý khi bóng chạm đỉnh và không chạm thanh đỡ
+      if (Math.abs(ball1.x - (paddleVertical + paddleVerticalInGame.width / 2)) <= ball1.ballRadius &&
+        ball1.y - ball1.ballRadius <= paddleVerticalInGame.height) {
+        ball1.dy = -ball1.dy; // Quả bóng nảy lại khi cách thanh đỡ 2 pixel ở mọi mặt
+      } else {
+        lives--;
+        if (!lives) {
+          alert("GAME OVER");
+          lives = 0;
+          clearInterval(BallFly);
+        } else {
+          ball1.x = canvas.width / 2;
+          ball1.y = canvas.height - 30;
+          ball1.dx = 1;
+          ball1.dy = -1;
+          paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
+          paddleVertical = (canvas.height - paddleVerticalInGame.height) / 2;
+          LocationPaddleHorizontalTop = (canvas.width - paddleHorizontalInGame.width) / 2;
+          LocationPaddleVerticalRight = (canvas.height - paddleVerticalInGame.height) / 2;
+        }
       }
-      else {
-          // Xử lý khi bóng chạm đỉnh và không chạm thanh đỡ
-          if (Math.abs(ball1.x - (paddleVertical + paddleVerticalInGame.width / 2)) <= ball1.ballRadius &&
-              ball1.y - ball1.ballRadius <= paddleVerticalInGame.height) {
-              ball1.dy = -ball1.dy; // Quả bóng nảy lại khi cách thanh đỡ 2 pixel ở mọi mặt
-          } else {
-              lives--;
-              if (!lives) {
-                  alert("GAME OVER");
-                  lives = 0;
-                  clearInterval(BallFly);
-              } else {
-                  ball1.x = canvas.width / 2;
-                  ball1.y = canvas.height - 30;
-                  ball1.dx = 1;
-                  ball1.dy = -1;
-                  paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
-                  paddleVertical = (canvas.height - paddleVerticalInGame.height) / 2;
-                  LocationPaddleHorizontalTop = (canvas.width - paddleHorizontalInGame.width) / 2;
-                  LocationPaddleVerticalRight = (canvas.height - paddleVerticalInGame.height) / 2;
-              }
-          }
-      }
+    }
   }
   if (ball1.x + ball1.dx < ball1.ballRadius) {
-      if (ball1.y > LocationPaddleVerticalRight && ball1.y < LocationPaddleVerticalRight + paddleVerticalInGame.height) {
-          // Xử lý khi quả bóng chạm thanh đỡ ngang
-          ball1.dx = -ball1.dx;
+    if (ball1.y > LocationPaddleVerticalRight && ball1.y < LocationPaddleVerticalRight + paddleVerticalInGame.height) {
+      // Xử lý khi quả bóng chạm thanh đỡ ngang
+      ball1.dx = -ball1.dx;
+    } else {
+      // Xử lý khi quả bóng chạm biên trái
+      lives--;
+      if (!lives) {
+        alert("GAME OVER");
+        lives = 0;
+        clearInterval(BallFly);
       } else {
-          // Xử lý khi quả bóng chạm biên trái
-          lives--;
-          if (!lives) {
-              alert("GAME OVER");
-              lives = 0;
-              clearInterval(BallFly);
-          } else {
-              ball1.x = canvas.width / 2;
-              ball1.y = canvas.height - 30;
-              ball1.dx = 1;
-              ball1.dy = -1;
-              paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
-              paddleVertical = (canvas.height - paddleVerticalInGame.height) / 2;
-              LocationPaddleHorizontalTop = (canvas.width - paddleHorizontalInGame.width) / 2
-              LocationPaddleVerticalRight = (canvas.height - paddleVerticalInGame.height) / 2;
-          }
+        ball1.x = canvas.width / 2;
+        ball1.y = canvas.height - 30;
+        ball1.dx = 1;
+        ball1.dy = -1;
+        paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
+        paddleVertical = (canvas.height - paddleVerticalInGame.height) / 2;
+        LocationPaddleHorizontalTop = (canvas.width - paddleHorizontalInGame.width) / 2
+        LocationPaddleVerticalRight = (canvas.height - paddleVerticalInGame.height) / 2;
       }
+    }
   }
   if (ball1.x + ball1.dx > canvas.width - ball1.ballRadius) {
-      if (ball1.y > paddleVertical && ball1.y < paddleVertical + paddleVerticalInGame.height) {
-          // Xử lý khi quả bóng chạm thanh đỡ dọc
-          ball1.dx = -ball1.dx;
+    if (ball1.y > paddleVertical && ball1.y < paddleVertical + paddleVerticalInGame.height) {
+      // Xử lý khi quả bóng chạm thanh đỡ dọc
+      ball1.dx = -ball1.dx;
+    } else {
+      // Xử lý khi quả bóng chạm biên phải
+      lives--;
+      if (!lives) {
+        alert("GAME OVER");
+        lives = 0;
+        clearInterval(BallFly);
       } else {
-          // Xử lý khi quả bóng chạm biên phải
-          lives--;
-          if (!lives) {
-              alert("GAME OVER");
-              lives = 0;
-              clearInterval(BallFly);
-          } else {
-              ball1.x = canvas.width / 2;
-              ball1.y = canvas.height - 30;
-              ball1.dx = 1;
-              ball1.dy = -1;
-              paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
-              paddleVertical = (canvas.height - paddleVerticalInGame.height) / 2;
-              LocationPaddleHorizontalTop = (canvas.width - paddleHorizontalInGame.width) / 2
-              LocationPaddleVerticalRight = (canvas.height - paddleVerticalInGame.height) / 2;
-          }
+        ball1.x = canvas.width / 2;
+        ball1.y = canvas.height - 30;
+        ball1.dx = 1;
+        ball1.dy = -1;
+        paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
+        paddleVertical = (canvas.height - paddleVerticalInGame.height) / 2;
+        LocationPaddleHorizontalTop = (canvas.width - paddleHorizontalInGame.width) / 2
+        LocationPaddleVerticalRight = (canvas.height - paddleVerticalInGame.height) / 2;
       }
+    }
   }
 
 
   if (rightPressed && paddleHorizontal < canvas.width - paddleHorizontalInGame.width && LocationPaddleHorizontalTop < canvas.width - paddleHorizontalTop.width) {
-      paddleHorizontal += 7;
-      LocationPaddleHorizontalTop += 7;
+    paddleHorizontal += 7;
+    LocationPaddleHorizontalTop += 7;
   }
   else if (leftPressed && paddleHorizontal > 0 && LocationPaddleHorizontalTop > 0) {
-      paddleHorizontal -= 7;
-      LocationPaddleHorizontalTop -= 7;
+    paddleHorizontal -= 7;
+    LocationPaddleHorizontalTop -= 7;
   }
   if (bottomPressed && paddleVertical < canvas.height - paddleVerticalInGame.height) {
-      paddleVertical += 3.5;
-      LocationPaddleVerticalRight += 3.5
+    paddleVertical += 3.5;
+    LocationPaddleVerticalRight += 3.5
   }
   else if (topPressed && paddleVertical > 0) {
-      paddleVertical -= 3.5;
-      LocationPaddleVerticalRight -= 3.5
+    paddleVertical -= 3.5;
+    LocationPaddleVerticalRight -= 3.5
   }
   drawLives();
-  drawBricksLV2();
-  collisionDetection(ball1);
+  drawBricksLV4();
+  collisionDetectionLV4(ball1);
   drawScore();
+  console.log(ball1.dx, ball1.dy)
+}
+function animateGameLv1() {
+  stopAllLevels()
+  isLv1Running = true;
+  drawGameLV1();
+  animationFrame = requestAnimationFrame(animateGameLv1);
+}
+
+function animateGameLv2() {
+  stopAllLevels()
+  isLv2Running = true;
+  drawGameLV2();
+  animationFrame = requestAnimationFrame(animateGameLv2);
+}
+
+function animateGameLv3() {
+  stopAllLevels()
+  isLv3Running = true;
+  drawGameLV3();
+  animationFrame = requestAnimationFrame(animateGameLv3);
+}
+
+function animateGameLv4() {
+  stopAllLevels()
+  isLv4Running = true;
+  drawGameLV4();
+  animationFrame = requestAnimationFrame(animateGameLv4);
+}
+function resetLV1(){
+  ball1.x =  canvas.width / 2
+  ball1.y =  canvas.height - 30
+  ball1.dx = 1
+  ball1.dy = -1
+  for (c = 0; c < matrixBricks.brickColumnCount; c++) {
+    bricks[c] = [];
+    for (r = 0; r < matrixBricks.brickRowCount; r++) {
+      bricks[c][r] = { x: 0, y: 0, status: 1 };
+    }
+  }
+  drawBricks()
+  paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
+  lives = 3
+  score=0
+}
+function resetLV2(){
+  ball1.x =  canvas.width / 2
+  ball1.y =  canvas.height - 30
+  ball1.dx = 1
+  ball1.dy = -1
+  for (c = 0; c < matrixBricks.brickColumnCount; c++) {
+    bricks[c] = [];
+    for (r = 0; r < matrixBricks.brickRowCount; r++) {
+      bricks[c][r] = { x: 0, y: 0, status: 1 };
+    }
+  }
+  drawBricksLV2()
+  paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
+  paddleVertical = (canvas.height - paddleVerticalInGame.height) / 2;
+  lives = 3
+  score=0
+}
+function resetLV3(){
+  ball1.x =  canvas.width / 2
+  ball1.y =  canvas.height - 30
+  ball1.dx = 1
+  ball1.dy = -1
+  ball2.x =  canvas.width / 2
+  ball2.y =  canvas.height - 30
+  ball2.dx = 2
+  ball2.dy = -2
+  for (c = 0; c < matrixBricks.brickColumnCount; c++) {
+    bricks[c] = [];
+    for (r = 0; r < matrixBricks.brickRowCount; r++) {
+      bricks[c][r] = { x: 0, y: 0, status: 1 };
+    }
+  }
+  drawBricks()
+  paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
+  lives = 3
+  score=0
+}
+function resetLV4(){
+  ball1.x =  canvas.width / 2
+  ball1.y =  canvas.height - 30
+  ball1.dx = 1
+  ball1.dy = -1
+  for (var c = 0; c < matrixBricks.brickColumnCount; c++) {
+    bricksLV4[c] = [];
+    for (var r = 0; r < matrixBricks.brickRowCount; r++) {
+      bricksLV4[c][r] = { x: 0, y: 0, status: 1 };
+    }
+  }
+  drawBricksLV4()
+  paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
+  paddleVertical = (canvas.height - paddleVerticalInGame.height) / 2;
+  LocationPaddleHorizontalTop = (canvas.width - paddleHorizontalInGame.width) / 2;
+  LocationPaddleVerticalRight = (canvas.height - paddleVerticalInGame.height) / 2;
+  lives = 3
+  score=0
 }
 
 
