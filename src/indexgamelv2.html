@@ -71,6 +71,14 @@
             </div>
             <div id="RightArea">
                 <canvas id="Heart" width="" height=""></canvas>
+                <div class="listBtnLevel">
+                    <button type="submit" id="btnLv1" onclick="changeColor('btnLv1')" class="btnLevel">Level 1</button>
+                    <button type="submit" id="btnLv2" onclick="changeColor('btnLv2')" class="btnLevel">Level 2</button>
+                    <button type="submit" id="btnLv3" onclick="changeColor('btnLv3')" class="btnLevel">Level 3</button>
+                    <button type="submit" id="btnLv4" onclick="changeColor('btnLv4')" class="btnLevel">Level 4</button>
+                    <button type="submit" id="btnLv5" onclick="changeColor('btnLv5')" class="btnLevel">Level 5</button>
+                    <button type="submit" id="btnLv6" onclick="changeColor('btnLv6')" class="btnLevel">Level 6</button>
+                </div>
                 <div id="PanelControl">
                     <div id="BtnSubmit">
                     </div>
@@ -80,8 +88,8 @@
     </div>
     <script src="../event/event.js"></script>
     <script>
-        function drawGameLV1() {
-            if (!isLv1Running) return;
+        function drawGameLV5() {
+            if (!isLv5Running) return;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             drawBall2(ball1);
             drawPaddleHorizontal()
@@ -134,11 +142,27 @@
             drawScore()
             console.log(ball1.dx, ball1.dy)
         }
-        function animateGameLv1() {
+        function animateGameLv5() {
             stopAllLevels()
-            isLv1Running = true;
+            isLv5Running = true;
             drawGameLV1();
-            animationFrame = requestAnimationFrame(animateGameLv1);
+            animationFrame = requestAnimationFrame(animateGameLv5);
+        }
+        function resetLV5() {
+            ball1.x = canvas.width / 2
+            ball1.y = canvas.height - 30
+            ball1.dx = 1
+            ball1.dy = -1
+            for (c = 0; c < matrixBricks.brickColumnCount; c++) {
+                bricks[c] = [];
+                for (r = 0; r < matrixBricks.brickRowCount; r++) {
+                    bricks[c][r] = { x: 0, y: 0, status: 1 };
+                }
+            }
+            drawBricks()
+            paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
+            lives = 3
+            score = 0
         }
     </script>
 </body>

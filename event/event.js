@@ -4,11 +4,15 @@ let isLv1Running = false;
 let isLv2Running = false;
 let isLv3Running = false;
 let isLv4Running = false;
+let isLv5Running = false;
+let isLv6Running = false;
 function stopAllLevels() {
   isLv1Running = false;
   isLv2Running = false;
   isLv3Running = false;
   isLv4Running = false;
+  isLv5Running = false;
+  isLv6Running = false;
 }
 document.getElementById('btnLv1').addEventListener('click', () => {
   flag = true
@@ -37,14 +41,28 @@ document.getElementById('btnLv4').addEventListener('click', () => {
   cancelAnimationFrame(animationFrame); // Hủy bỏ vòng lặp vẽ hiện tại trước khi bắt đầu mới
   animateGameLv4();
 });
+document.getElementById('btnLv5').addEventListener('click', () => {
+  flag = true
+  resetLV5()
+  drawBallChill()
+  cancelAnimationFrame(animationFrame); // Hủy bỏ vòng lặp vẽ hiện tại trước khi bắt đầu mới
+  animateGameLv5();
+});
+// document.getElementById('btnLv6').addEventListener('click', () => {
+//   flag = true
+//   resetLV6()
+//   cancelAnimationFrame(animationFrame); // Hủy bỏ vòng lặp vẽ hiện tại trước khi bắt đầu mới
+//   animateGameLv6();
+// });
+
 function changeColor(btnId) {
   var buttons = document.querySelectorAll('.listBtnLevel button');
-  buttons.forEach(function(button) {
-      if (button.id === btnId) {
-          button.style.backgroundColor = "green";
-      } else {
-          button.style.backgroundColor = ""; // Reset background color to default
-      }
+  buttons.forEach(function (button) {
+    if (button.id === btnId) {
+      button.style.backgroundColor = "green";
+    } else {
+      button.style.backgroundColor = ""; // Reset background color to default
+    }
   });
 }
 
@@ -151,8 +169,8 @@ var ball1 = {
   x: canvas.width / 2,
   y: canvas.height - 30,
   ballRadius: 15,
-  dx: 1,
-  dy: -1,
+  dx: 2,
+  dy: -2,
   color: 'blue' // Màu xanh cho quả bóng 2
 };
 //Bóng trợ thủ
@@ -823,9 +841,9 @@ function animateGameLv4() {
   drawGameLV4();
   animationFrame = requestAnimationFrame(animateGameLv4);
 }
-function resetLV1(){
-  ball1.x =  canvas.width / 2
-  ball1.y =  canvas.height - 30
+function resetLV1() {
+  ball1.x = canvas.width / 2
+  ball1.y = canvas.height - 30
   ball1.dx = 1
   ball1.dy = -1
   for (c = 0; c < matrixBricks.brickColumnCount; c++) {
@@ -837,11 +855,11 @@ function resetLV1(){
   drawBricks()
   paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
   lives = 3
-  score=0
+  score = 0
 }
-function resetLV2(){
-  ball1.x =  canvas.width / 2
-  ball1.y =  canvas.height - 30
+function resetLV2() {
+  ball1.x = canvas.width / 2
+  ball1.y = canvas.height - 30
   ball1.dx = 1
   ball1.dy = -1
   for (c = 0; c < matrixBricks.brickColumnCount; c++) {
@@ -854,15 +872,15 @@ function resetLV2(){
   paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
   paddleVertical = (canvas.height - paddleVerticalInGame.height) / 2;
   lives = 3
-  score=0
+  score = 0
 }
-function resetLV3(){
-  ball1.x =  canvas.width / 2
-  ball1.y =  canvas.height - 30
+function resetLV3() {
+  ball1.x = canvas.width / 2
+  ball1.y = canvas.height - 30
   ball1.dx = 1
   ball1.dy = -1
-  ball2.x =  canvas.width / 2
-  ball2.y =  canvas.height - 30
+  ball2.x = canvas.width / 2
+  ball2.y = canvas.height - 30
   ball2.dx = 2
   ball2.dy = -2
   for (c = 0; c < matrixBricks.brickColumnCount; c++) {
@@ -874,11 +892,11 @@ function resetLV3(){
   drawBricks()
   paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
   lives = 3
-  score=0
+  score = 0
 }
-function resetLV4(){
-  ball1.x =  canvas.width / 2
-  ball1.y =  canvas.height - 30
+function resetLV4() {
+  ball1.x = canvas.width / 2
+  ball1.y = canvas.height - 30
   ball1.dx = 1
   ball1.dy = -1
   for (var c = 0; c < matrixBricks.brickColumnCount; c++) {
@@ -893,7 +911,132 @@ function resetLV4(){
   LocationPaddleHorizontalTop = (canvas.width - paddleHorizontalInGame.width) / 2;
   LocationPaddleVerticalRight = (canvas.height - paddleVerticalInGame.height) / 2;
   lives = 3
-  score=0
+  score = 0
+}
+
+
+var paddleHorizontalInGameLV5 = {
+  height: 10,
+  width: 250
+}
+var LocationPaddleHorizontalInGameLV5 = (canvas.width - paddleHorizontalInGameLV5.width) / 2
+
+function drawPaddleHorizontalLV5() {
+  ctx.beginPath();
+  ctx.rect(LocationPaddleHorizontalInGameLV5, canvas.height - paddleHorizontalInGame.height, paddleHorizontalInGameLV5.width, paddleHorizontalInGame.height);
+  ctx.fillStyle = "violet";
+  ctx.fill();
+  ctx.closePath();
+}
+var listBallLv5 = []
+listBallLv5.push(ball1)
+function drawGameLV5() {
+
+  if (!isLv5Running) return;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  drawPaddleHorizontalLV5()
+  listBallLv5.forEach(ball => {
+    drawBall2(ball);
+    ball.x += ball.dx;
+    ball.y += ball.dy;
+    if (ball.x + ball.dx > canvas.width - ball.ballRadius || ball.x + ball.dx < ball.ballRadius) {
+      ball.dx = - ball.dx;
+    }
+    if (ball.y + ball.dy < ball.ballRadius) {
+      ball.dy = -ball.dy;
+    }
+    else if (ball.y + ball.dy > canvas.height - ball.ballRadius - paddleHorizontalInGameLV5.height + 10) {
+      if (ball.x > LocationPaddleHorizontalInGameLV5 - ball.ballRadius && ball.x < LocationPaddleHorizontalInGameLV5 + paddleHorizontalInGameLV5.width + ball.ballRadius) {
+        ball.dy = -ball.dy;
+      }
+      else {
+        if (Math.abs(ball.x - (LocationPaddleHorizontalInGameLV5 + paddleHorizontalInGameLV5.width / 2)) <= ball.ballRadius &&
+          ball.y + ball.ballRadius >= canvas.height - paddleHorizontalInGameLV5.height) {
+          ball.dy = - ball.dy; // Quả bóng nảy lại khi cách thanh đỡ 2 pixel ở mọi mặt
+        }
+        else {
+          lives--;
+          if (!lives) {
+            alert("GAME OVER");
+            lives = 0;
+            clearInterval(BallFly);
+
+          }
+          else {
+            ball.x = canvas.width / 2;
+            ball.y = canvas.height - 30;
+            ball.dx = 1;
+            ball.dy = -1;
+            paddleHorizontal = (canvas.width - paddleHorizontalInGameLV5.width) / 2;
+          }
+        }
+
+      }
+    }
+    collisionDetection(ball)
+  })
+
+  if (rightPressed && LocationPaddleHorizontalInGameLV5 < canvas.width - paddleHorizontalInGameLV5.width) {
+    LocationPaddleHorizontalInGameLV5 += 7;
+  }
+  else if (leftPressed && paddleHorizontal > 0) {
+    LocationPaddleHorizontalInGameLV5 -= 7;
+  }
+  drawLives()
+  drawBricks()
+  drawScore()
+  console.log(ball1.dx, ball1.dy)
+}
+class BallChill {
+  constructor(x, y, ballRadius, dx, dy, color) {
+    this.x = x
+    this.y = y
+    this.ballRadius = ballRadius
+    this.dx = dx
+    this.dy = dy
+    this.color = color
+  }
+}
+function drawBallChill() {
+  var addball = setInterval(function () {
+    var ballChill = new BallChill(canvas.width / 2, canvas.height - 30, 15, 1, -1, 'blue');
+    listBallLv5.push(ballChill);
+    console.log("ball");
+
+    if (listBallLv5.length === 5) {
+      clearInterval(addball);
+    }
+  }, 5000);
+}
+
+
+
+function animateGameLv5() {
+  stopAllLevels()
+  isLv5Running = true;
+  drawGameLV5();
+  animationFrame = requestAnimationFrame(animateGameLv5);
+}
+function resetLV5() {
+  listBallLv5.splice(0, listBallLv5.length)
+  listBallLv5.push(ball1)
+  listBallLv5.forEach(ball => {
+    ball.x = canvas.width / 2
+    ball.y = canvas.height - 30
+    ball.dx = 1
+    ball.dy = -1
+  })
+  for (c = 0; c < matrixBricks.brickColumnCount; c++) {
+    bricks[c] = [];
+    for (r = 0; r < matrixBricks.brickRowCount; r++) {
+      bricks[c][r] = { x: 0, y: 0, status: 1 };
+    }
+  }
+  drawBricks()
+  LocationPaddleHorizontalInGameLV5 = (canvas.width - paddleHorizontalInGameLV5.width) / 2;
+  lives = 3
+  score = 0
 }
 
 
