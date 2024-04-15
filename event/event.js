@@ -47,12 +47,12 @@ document.getElementById('btnLv5').addEventListener('click', () => {
   cancelAnimationFrame(animationFrame); // Hủy bỏ vòng lặp vẽ hiện tại trước khi bắt đầu mới
   animateGameLv5();
 });
-// document.getElementById('btnLv6').addEventListener('click', () => {
-//   isLv6Running = true
-//   resetLV6()
-//   cancelAnimationFrame(animationFrame); // Hủy bỏ vòng lặp vẽ hiện tại trước khi bắt đầu mới
-//   animateGameLv6();
-// });
+document.getElementById('btnLv6').addEventListener('click', () => {
+  isLv6Running = true
+  resetLV6()
+  cancelAnimationFrame(animationFrame); // Hủy bỏ vòng lặp vẽ hiện tại trước khi bắt đầu mới
+  animateGameLv6();
+});
 
 function changeColor(btnId) {
   var buttons = document.querySelectorAll('.listBtnLevel button');
@@ -1008,10 +1008,6 @@ function drawBallChill() {
   }, 5000);
 }
 
-
-
-
-
 function animateGameLv5() {
   stopAllLevels()
   isLv5Running = true;
@@ -1053,9 +1049,176 @@ function resetLV5() {
 
 
 
+var countScore = 0;
+var countScore2 = 0;
+var countScore3 = 0;
+
+function zoomInBall(ball) {
+  if (countScore === 5) {
+    ball.ballRadius += 1;
+    countScore = 0;
+    console.log("ball plus");
+  }
+  if (countScore2 === 10) {
+    ball.dx += 1;
+    ball.dy += 1;
+    countScore2 = 0;
+    console.log("speed plus");
+  }
+  if (countScore3 === 12) {
+    paddleHorizontalInGame.width += 20;
+    countScore3 = 0;
+    console.log("paddle plus");
+  }
+}
+
+var bricksLV6 = [];
+
+for (var c = 0; c < matrixBricks.brickColumnCount; c++) {
+  bricksLV6[c] = [];
+  for (var r = 0; r < matrixBricks.brickRowCount; r++) {
+    bricksLV6[c][r] = { x: 0, y: 0, status: 2 };
+  }
+}
+
+function drawBricksLV6() {
+  for (c = 0; c < matrixBricks.brickColumnCount; c++) {
+    for (r = 0; r < matrixBricks.brickRowCount; r++) {
+      if (bricksLV6[c][r].status === 1) {
+        var brickX = (c * (brick.brickWidth + brick.brickPadding)) + brickOffset.left;
+        var brickY = (r * (brick.brickHeight + brick.brickPadding)) + brickOffset.top;
+        bricksLV6[c][r].x = brickX;
+        bricksLV6[c][r].y = brickY;
+        ctx.beginPath();
+        ctx.rect(brickX, brickY, brick.brickWidth, brick.brickHeight);
+        ctx.fillStyle = "violet";
+        ctx.fill();
+        ctx.closePath();
+      }
+      if (bricksLV6[c][r].status === 2) {
+        var brickX = (c * (brick.brickWidth + brick.brickPadding)) + brickOffset.left;
+        var brickY = (r * (brick.brickHeight + brick.brickPadding)) + brickOffset.top;
+        bricksLV6[c][r].x = brickX;
+        bricksLV6[c][r].y = brickY;
+        ctx.beginPath();
+        ctx.rect(brickX, brickY, brick.brickWidth, brick.brickHeight);
+        ctx.fillStyle = "red";
+        ctx.fill();
+        ctx.closePath();
+      }
+    }
+  }
+}
 
 
+function collisionDetectionLV6(ball) {
+  for (c = 0; c < matrixBricks.brickColumnCount; c++) {
+    for (r = 0; r < matrixBricks.brickRowCount; r++) {
+      var b = bricksLV6[c][r];
+      if (b.status === 1) {
+        if (ball.x + ball.ballRadius > b.x && ball.x - ball.ballRadius < b.x + brick.brickWidth && ball.y + ball.ballRadius > b.y && ball.y - ball.ballRadius < b.y + brick.brickHeight) {
+          ball.dy = -ball.dy;
+          b.status = 0;
+          score++;
+          countScore++;
+          countScore2++;
+          countScore3++;
+          if (score === matrixBricks.brickRowCount * matrixBricks.brickColumnCount) {
+            alert("YOU WIN, CONGRATULATIONS!");
+            document.location.reload();
+          }
+        }
+      } else if (b.status === 2) {
+        if (ball.x + ball.ballRadius > b.x && ball.x - ball.ballRadius < b.x + brick.brickWidth && ball.y + ball.ballRadius > b.y && ball.y - ball.ballRadius < b.y + brick.brickHeight) {
+          ball.dy = -ball.dy;
+          b.status = 1;
+          if (score === matrixBricks.brickRowCount * matrixBricks.brickColumnCount) {
+            alert("YOU WIN, CONGRATULATIONS!");
+            document.location.reload();
+          }
+        }
+      }
+    }
+  }
+}
 
+function drawGameLV6() {
+  if (!isLv6Running) return;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawBall2(ball1);
+  drawPaddleHorizontal()
+  zoomInBall(ball1)
+  ball1.x += ball1.dx;
+  ball1.y += ball1.dy;
+  if (ball1.x + ball1.dx > canvas.width - ball1.ballRadius || ball1.x + ball1.dx < ball1.ballRadius) {
+    ball1.dx = - ball1.dx;
+  }
+  if (ball1.y + ball1.dy < ball1.ballRadius) {
+    ball1.dy = -ball1.dy;
+  }
+  else if (ball1.y + ball1.dy > canvas.height - ball1.ballRadius - paddleHorizontalInGame.height + 10) {
+    if (ball1.x > paddleHorizontal - ball1.ballRadius && ball1.x < paddleHorizontal + paddleHorizontalInGame.width + ball1.ballRadius) {
+      ball1.dy = -ball1.dy;
+    }
+    else {
+      if (Math.abs(ball1.x - (paddleHorizontal + paddleHorizontalInGame.width / 2)) <= ball1.ballRadius &&
+        ball1.y + ball1.ballRadius >= canvas.height - paddleHorizontalInGame.height) {
+        ball1.dy = - ball1.dy; // Quả bóng nảy lại khi cách thanh đỡ 2 pixel ở mọi mặt
+      }
+      else {
+        lives--;
+        if (!lives) {
+          alert("GAME OVER");
+          lives = 0;
+          clearInterval(BallFly);
+
+        }
+        else {
+          ball1.x = canvas.width / 2;
+          ball1.y = canvas.height - 30;
+          ball1.dx = 1;
+          ball1.dy = -1;
+          paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
+        }
+      }
+
+    }
+  }
+
+  if (rightPressed && paddleHorizontal < canvas.width - paddleHorizontalInGame.width) {
+    paddleHorizontal += 5;
+  }
+  else if (leftPressed && paddleHorizontal > 0) {
+    paddleHorizontal -= 5;
+  }
+  drawLives()
+  drawBricksLV6()
+  collisionDetectionLV6(ball1)
+  drawScore()
+  console.log(ball1.dx, ball1.dy)
+}
+function animateGameLv6() {
+  stopAllLevels()
+  isLv6Running = true;
+  drawGameLV6();
+  animationFrame = requestAnimationFrame(animateGameLv6);
+}
+function resetLV6() {
+  ball1.x = canvas.width / 2
+  ball1.y = canvas.height - 30
+  ball1.dx = 2
+  ball1.dy = -2
+  for (c = 0; c < matrixBricks.brickColumnCount; c++) {
+    bricksLV6[c] = [];
+    for (r = 0; r < matrixBricks.brickRowCount; r++) {
+      bricksLV6[c][r] = { x: 0, y: 0, status: 2 };
+    }
+  }
+  drawBricksLV6()
+  paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
+  lives = 3
+  score = 0
+}
 
 
 
