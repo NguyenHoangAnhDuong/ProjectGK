@@ -15,41 +15,40 @@ function stopAllLevels() {
   isLv6Running = false;
 }
 document.getElementById('btnLv1').addEventListener('click', () => {
-  flag = true
+  isLv1Running = true
   resetLV1()
   cancelAnimationFrame(animationFrame); // Hủy bỏ vòng lặp vẽ hiện tại trước khi bắt đầu mới
   animateGameLv1();
 });
 
 document.getElementById('btnLv2').addEventListener('click', () => {
-  flag = true
+  isLv2Running = true
   resetLV2()
   cancelAnimationFrame(animationFrame); // Hủy bỏ vòng lặp vẽ hiện tại trước khi bắt đầu mới
   animateGameLv2();
 });
 
 document.getElementById('btnLv3').addEventListener('click', () => {
-  flag = true
+  isLv3Running = true
   resetLV3()
   cancelAnimationFrame(animationFrame); // Hủy bỏ vòng lặp vẽ hiện tại trước khi bắt đầu mới
   animateGameLv3();
 });
 
 document.getElementById('btnLv4').addEventListener('click', () => {
-  flag = true
+  isLv4Running = true
   resetLV4()
   cancelAnimationFrame(animationFrame); // Hủy bỏ vòng lặp vẽ hiện tại trước khi bắt đầu mới
   animateGameLv4();
 });
 document.getElementById('btnLv5').addEventListener('click', () => {
-  flag = true
+  isLv5Running = true
   resetLV5()
-  drawBallChill()
   cancelAnimationFrame(animationFrame); // Hủy bỏ vòng lặp vẽ hiện tại trước khi bắt đầu mới
   animateGameLv5();
 });
 // document.getElementById('btnLv6').addEventListener('click', () => {
-//   flag = true
+//   isLv6Running = true
 //   resetLV6()
 //   cancelAnimationFrame(animationFrame); // Hủy bỏ vòng lặp vẽ hiện tại trước khi bắt đầu mới
 //   animateGameLv6();
@@ -931,10 +930,8 @@ function drawPaddleHorizontalLV5() {
 var listBallLv5 = []
 listBallLv5.push(ball1)
 function drawGameLV5() {
-
   if (!isLv5Running) return;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
   drawPaddleHorizontalLV5()
   listBallLv5.forEach(ball => {
     drawBall2(ball);
@@ -976,7 +973,6 @@ function drawGameLV5() {
     }
     collisionDetection(ball)
   })
-
   if (rightPressed && LocationPaddleHorizontalInGameLV5 < canvas.width - paddleHorizontalInGameLV5.width) {
     LocationPaddleHorizontalInGameLV5 += 7;
   }
@@ -999,16 +995,20 @@ class BallChill {
   }
 }
 function drawBallChill() {
+  clearInterval(addball);
+  if (!isLv5Running) return;
   var addball = setInterval(function () {
-    var ballChill = new BallChill(canvas.width / 2, canvas.height - 30, 15, 1, -1, 'blue');
-    listBallLv5.push(ballChill);
-    console.log("ball");
-
-    if (listBallLv5.length === 5) {
+    if (listBallLv5.length < 5) {
+      var ballChill = new BallChill(canvas.width / 2, canvas.height - 30, 15, 1, -1, 'blue');
+      listBallLv5.push(ballChill);
+      console.log(listBallLv5.length);
+    } else {
       clearInterval(addball);
     }
   }, 5000);
 }
+
+
 
 
 
@@ -1019,25 +1019,38 @@ function animateGameLv5() {
   animationFrame = requestAnimationFrame(animateGameLv5);
 }
 function resetLV5() {
-  listBallLv5.splice(0, listBallLv5.length)
-  listBallLv5.push(ball1)
+  clearInterval(addball)
+  listBallLv5.splice(0, listBallLv5.length);
+  score = 0;
+  lives = 3;
+  listBallLv5.push(ball1);
+  if (isLv5Running) {
+    var addball = setInterval(function () {
+      if (listBallLv5.length < 5) {
+        var ballChill = new BallChill(canvas.width / 2, canvas.height - 30, 15, 1, -1, 'blue');
+        listBallLv5.push(ballChill);
+        console.log(listBallLv5.length);
+      } else {
+        clearInterval(addball);
+      }
+    }, 5000);
+  }
   listBallLv5.forEach(ball => {
-    ball.x = canvas.width / 2
-    ball.y = canvas.height - 30
-    ball.dx = 1
-    ball.dy = -1
-  })
+    ball.x = canvas.width / 2;
+    ball.y = canvas.height - 30;
+    ball.dx = 1;
+    ball.dy = -1;
+  });
   for (c = 0; c < matrixBricks.brickColumnCount; c++) {
     bricks[c] = [];
     for (r = 0; r < matrixBricks.brickRowCount; r++) {
       bricks[c][r] = { x: 0, y: 0, status: 1 };
     }
   }
-  drawBricks()
+  drawBricks();
   LocationPaddleHorizontalInGameLV5 = (canvas.width - paddleHorizontalInGameLV5.width) / 2;
-  lives = 3
-  score = 0
 }
+
 
 
 
