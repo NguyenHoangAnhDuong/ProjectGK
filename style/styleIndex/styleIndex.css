@@ -211,6 +211,58 @@ body #Templete #GamingMachine #CenterArea #chooseLevel .fa-xmark:hover {
 body #Templete #GamingMachine #CenterArea #chooseLevel .fa-xmark:active {
   scale: 1.05;
 }
+body #Templete #GamingMachine #CenterArea #PanelInformation {
+  position: absolute;
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: none;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+body #Templete #GamingMachine #CenterArea #PanelInformation .contentInformation {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 5px solid powderblue;
+  background-color: black;
+  padding: 30px 60px;
+  row-gap: 20px;
+}
+body #Templete #GamingMachine #CenterArea #PanelInformation .contentInformation span {
+  font-size: 2.5rem;
+  color: powderblue;
+}
+body #Templete #GamingMachine #CenterArea #PanelInformation .contentInformation .context {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  row-gap: 20px;
+}
+body #Templete #GamingMachine #CenterArea #PanelInformation .contentInformation .context .inf span {
+  color: powderblue;
+  font-size: 25px;
+}
+body #Templete #GamingMachine #CenterArea #PanelInformation .fa-xmark {
+  position: absolute;
+  font-size: 2.5rem;
+  color: white;
+  background-color: red;
+  padding: 5px 10px;
+  border-radius: 5px;
+  top: 15px;
+  right: 20px;
+}
+body #Templete #GamingMachine #CenterArea #PanelInformation .fa-xmark:hover {
+  background-color: white;
+  color: red;
+}
+body #Templete #GamingMachine #CenterArea #PanelInformation .fa-xmark:active {
+  scale: 1.05;
+}
 body #Templete #GamingMachine #CenterArea .head {
   color: powderblue;
   font-size: 5rem;
