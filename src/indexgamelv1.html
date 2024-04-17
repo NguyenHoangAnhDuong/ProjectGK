@@ -74,7 +74,7 @@
                         <li class="item"><button type="submit" onclick="beginGame('btnBegin')" id="btnBegin">Bắt đầu trò
                                 chơi</button></li>
                         <li class="item"><button type="submit" onclick="chooseLevelStartInGame('chooseLevelStart')" id="chooseLevelStart">Chọn Độ Khó</button></li>
-                        <li class="item"><button type="submit">Thông tin</button></li>
+                        <li class="item"><button type="submit" onclick="SeenInf('Infromation')" id="Infromation">Thông tin</button></li>
                         <li class="item"><button type="submit">Hướng dẫn</button></li>
                     </ul>
                 </div>
@@ -88,6 +88,34 @@
                         <li><button type="submit" id="btnLv6InMenu" onclick="changeColor('btnLv6InMenu')" class="btnLevel">Level 6</button></li>
                     </ul>
                     <i class="fa-solid fa-xmark" id="exit" onclick="returnMenuStart('exit')"></i>
+                </div>
+                <div id="PanelInformation">
+                    <i class="fa-solid fa-xmark" id="exitInf" onclick="returnMenuStart2('exitInf')"></i>
+                    <div class="contentInformation">
+                        <span> Thông tin cá nhân</span>
+                        <div class="context">
+                            <div class="inf">
+                                <span>Họ và tên: </span>
+                                <span>Nguyễn Hoàng Ánh Dương</span>
+                            </div>
+                            <div class="inf">
+                                <span>MSSV: </span>
+                                <span>21130328</span>
+                            </div>
+                            <div class="inf">
+                                <span>Lớp: </span>
+                                <span>DH21DT-B</span>
+                            </div>
+                            <div class="inf">
+                               <span>Môn học: </span>
+                               <span>Lập trình Front-End</span>
+                            </div class="inf">
+                            <div class="inf">
+                                <span>Giảng viên: </span>
+                                <span>Phan Đình Long</span>
+                            </div class="inf">
+                        </div>
+                    </div>
                 </div>
             </div>
             <div id="RightArea">

@@ -14,6 +14,19 @@ function returnMenuStart(btnid){
     startGame.style.display = 'flex';
   }
 }
+var panelInf = document.getElementById('PanelInformation')
+var btnexitInf = document.getElementById('exitInf')
+function returnMenuStart2(btnid){
+  if (btnexitInf.id === btnid) {
+    panelInf.style.display = 'none';
+  }
+}
+var btnInformation = document.getElementById('Infromation')
+function SeenInf(btnid){
+  if (btnInformation.id === btnid) {
+    panelInf.style.display = 'flex';
+  }
+}
 var startGame = document.getElementById('startGame');
 function beginGame(btnId) {
   var btnBeginGame = document.getElementById('btnBegin');
