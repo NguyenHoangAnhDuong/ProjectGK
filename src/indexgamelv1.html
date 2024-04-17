@@ -73,19 +73,27 @@
                     <ul class="listItem" id="MenuGame">
                         <li class="item"><button type="submit" onclick="beginGame('btnBegin')" id="btnBegin">Bắt đầu trò
                                 chơi</button></li>
-                        <li class="item"><button type="submit" onclick="chooseLevelStartInGame('chooseLevelStart')" id="chooseLevelStart">Chọn Độ Khó</button></li>
-                        <li class="item"><button type="submit" onclick="SeenInf('Infromation')" id="Infromation">Thông tin</button></li>
-                        <li class="item"><button type="submit">Hướng dẫn</button></li>
+                        <li class="item"><button type="submit" onclick="chooseLevelStartInGame('chooseLevelStart')"
+                                id="chooseLevelStart">Chọn Độ Khó</button></li>
+                        <li class="item"><button type="submit" onclick="SeenInf('Infromation')" id="Infromation">Thông
+                                tin</button></li>
+                        <li class="item"><button type="submit" onclick="SeenGuide('SeenGuide')" id="SeenGuide">Hướng dẫn</button></li>
                     </ul>
                 </div>
                 <div id="chooseLevel">
                     <ul class="listLevel">
-                        <li><button type="submit" id="btnLv1InMenu" onclick="changeColor('btnLv1InMenu')" class="btnLevel">Level 1</button></li>
-                        <li><button type="submit" id="btnLv2InMenu" onclick="changeColor('btnLv2InMenu')" class="btnLevel">Level 2</button></li>
-                        <li><button type="submit" id="btnLv3InMenu" onclick="changeColor('btnLv3InMenu')" class="btnLevel">Level 3</button></li>
-                        <li><button type="submit" id="btnLv4InMenu" onclick="changeColor('btnLv4InMenu')" class="btnLevel">Level 4</button></li>
-                        <li><button type="submit" id="btnLv5InMenu" onclick="changeColor('btnLv5InMenu')" class="btnLevel">Level 5</button></li>
-                        <li><button type="submit" id="btnLv6InMenu" onclick="changeColor('btnLv6InMenu')" class="btnLevel">Level 6</button></li>
+                        <li><button type="submit" id="btnLv1InMenu" onclick="changeColor('btnLv1InMenu')"
+                                class="btnLevel">Level 1</button></li>
+                        <li><button type="submit" id="btnLv2InMenu" onclick="changeColor('btnLv2InMenu')"
+                                class="btnLevel">Level 2</button></li>
+                        <li><button type="submit" id="btnLv3InMenu" onclick="changeColor('btnLv3InMenu')"
+                                class="btnLevel">Level 3</button></li>
+                        <li><button type="submit" id="btnLv4InMenu" onclick="changeColor('btnLv4InMenu')"
+                                class="btnLevel">Level 4</button></li>
+                        <li><button type="submit" id="btnLv5InMenu" onclick="changeColor('btnLv5InMenu')"
+                                class="btnLevel">Level 5</button></li>
+                        <li><button type="submit" id="btnLv6InMenu" onclick="changeColor('btnLv6InMenu')"
+                                class="btnLevel">Level 6</button></li>
                     </ul>
                     <i class="fa-solid fa-xmark" id="exit" onclick="returnMenuStart('exit')"></i>
                 </div>
@@ -107,14 +115,70 @@
                                 <span>DH21DT-B</span>
                             </div>
                             <div class="inf">
-                               <span>Môn học: </span>
-                               <span>Lập trình Front-End</span>
-                            </div class="inf">
+                                <span>Môn học: </span>
+                                <span>Lập trình Front-End</span>
+                            </div>
                             <div class="inf">
                                 <span>Giảng viên: </span>
                                 <span>Phan Đình Long</span>
-                            </div class="inf">
+                            </div>
                         </div>
+                    </div>
+                </div>
+                <div id="PanelGuide">
+                    <i class="fa-solid fa-xmark" id="exitGuide" onclick="returnMenuStart3('exitGuide')"></i>
+                    <div class="container">
+                        <span class="guide">Hướng dẫn cách chơi</span>
+                    <span class="intro">Trò chơi Ping Pong là một trò chơi cổ điển nó mang lại cảm giác thõa mái, giảm căng thẳng sau
+                        nhưng giờ làm việc mệt mỏi</span>
+                    <div class="context">
+                        <div class="guideLV">
+                            <span class="title">Level 1</span>
+                            <span>Level 1 là level dễ nhất, người dùng sử dụng nút trái phải trên bàn phím để di chuyển
+                                và tung hứng quả bóng sao cho quả bóng va chạm và phá vỡ các viên gạch nếu chạm biên
+                                chưa thanh đỡ thì người chơi sẽ thua còn nếu phá vỡ hết tất cả các viên gạch thì người
+                                chơi sẽ thắng</span>
+                        </div>
+                        <div class="guideLV">
+                            <span class="title">Level 2</span>
+                            <span>Level 2 có mức độ khó cao hơn, người dùng cũng chỉ dùng hai nút trái phải trên bàn
+                                phím để di chuyển hai thanh đỡ một thanh bên dưới và một thanh bên phải tung hứng quả
+                                bóng nếu chạm biên chưa thanh đỡ thì người chơi sẽ thua còn nếu phá vỡ hết tất cả các
+                                viên gạch thì người chơi sẽ thắng</span>
+                        </div>
+                        <div class="guideLV">
+                            <span class="title">Level 3</span>
+                            <span>Level 3 bạn sẽ được thêm một trợ thủ đỏ nó giúp bạn phá gạch được nhanh hơn nhưng bù
+                                lại sau một khoảng thời gian các khối gạch sẽ trượt xuống, nếu các khối gạch chạm vào
+                                đường giới hạn bạn sẽ bị sử thua ngay lập tức và ngược lại nếu bạn phá hết tất cả các
+                                viên gạch ngay trước khi các viên gạch chạm đến vạch giới hạn thì bạn là người thắng
+                                cuộc</span>
+                        </div>
+                        <div class="guideLV">
+                            <span class="title">Level 4</span>
+                            <span> Level 4 chúng ta sẽ thay đổi cách chơi một chút, ngời chơi phải cùng lúc điều khiển 4
+                                thanh đỡ để tung hứng quả bóng bằng các nút lên xuống trái phải trên bàn phím và đưa quả
+                                bóng đến phá vỡ các viên gạch nếu quả bóng chạm biên thì người chơi sẽ bị trừ mạng và
+                                nếu hết mạng người chới sẽ thua. Ngược lại nếu người chơi phá hết tất cả các viên gạch
+                                thì sẽ thắng</span>
+                        </div>
+                        <div class="guideLV">
+                            <span class="title">Level 5</span>
+                            <span>Level 5 người chơi chỉ điều khiển một thanh đỡ dài hơn tốc độ nhanh hơn và đồng thời
+                                cứ sau một khoảng thời gian thì sẽ tạo ra một quả bóng mới, người chới phải cùng lúc
+                                tung hứng 5 quả bóng sao cho 5 quả bóng không được chạm biên dưới nếu không sẽ bị trừ
+                                mạng và nếu hết mạng người chơi sẽ bị sử thua, số bóng tôi đa được tạo ra là 5 nên người
+                                chơi hãy cẩn thận nhé</span>
+                        </div>
+                        <div class="guideLV">
+                            <span class="title">Level 6</span>
+                            <span>Level 6 cũng khá là căng thẳng vì người dùng phải diều khiển sao cho quả bóng chạm hai
+                                lần vào cùng một viên gạch thì mới được tính điểm và đến một mức độ điểm nhất định thì
+                                thanh đỡ sẽ dài ra thêm một chót và tốc độ cùng tăng lên vậy nên người chơi phải thật sự
+                                tư duy nhanh để di chuyển và phá hủy các viên gạch và thắng cuộc</span>
+                        </div>
+                        <span class="wish">Chúc các bạn chơi vui vẻ !</span>
+                    </div>
                     </div>
                 </div>
             </div>

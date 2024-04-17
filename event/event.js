@@ -21,6 +21,19 @@ function returnMenuStart2(btnid){
     panelInf.style.display = 'none';
   }
 }
+var btnExitGuide = document.getElementById('exitGuide')
+var panelGuide = document.getElementById('PanelGuide')
+function returnMenuStart3(btnid){
+  if (btnExitGuide.id === btnid) {
+    panelGuide.style.display = 'none';
+  }
+}
+var btnSeenGuide = document.getElementById('SeenGuide')
+function SeenGuide(btnId){
+  if(btnSeenGuide.id === btnId){
+    panelGuide.style.display = 'flex';
+  }
+}
 var btnInformation = document.getElementById('Infromation')
 function SeenInf(btnid){
   if (btnInformation.id === btnid) {
@@ -1210,7 +1223,6 @@ function collisionDetectionLV6(ball) {
           ball.dy = -ball.dy;
           b.status = 0;
           score++;
-          countScore++;
           countScore2++;
           countScore3++;
           if (score === matrixBricks.brickRowCount * matrixBricks.brickColumnCount) {

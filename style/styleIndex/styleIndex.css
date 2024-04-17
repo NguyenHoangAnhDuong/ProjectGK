@@ -263,6 +263,111 @@ body #Templete #GamingMachine #CenterArea #PanelInformation .fa-xmark:hover {
 body #Templete #GamingMachine #CenterArea #PanelInformation .fa-xmark:active {
   scale: 1.05;
 }
+body #Templete #GamingMachine #CenterArea #PanelGuide {
+  position: absolute;
+  z-index: 4;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.6);
+  display: none;
+}
+body #Templete #GamingMachine #CenterArea #PanelGuide .fa-xmark {
+  position: absolute;
+  font-size: 2.5rem;
+  color: white;
+  background-color: red;
+  padding: 5px 10px;
+  border-radius: 5px;
+  top: 15px;
+  right: 20px;
+}
+body #Templete #GamingMachine #CenterArea #PanelGuide .fa-xmark:hover {
+  background-color: white;
+  color: red;
+}
+body #Templete #GamingMachine #CenterArea #PanelGuide .fa-xmark:active {
+  scale: 1.05;
+}
+body #Templete #GamingMachine #CenterArea #PanelGuide .container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 80%;
+  row-gap: 20px;
+  background-color: black;
+  padding: 20px;
+  /* Microsoft Edge */
+}
+body #Templete #GamingMachine #CenterArea #PanelGuide .container .guide {
+  font-size: 2.5rem;
+  color: powderblue;
+}
+body #Templete #GamingMachine #CenterArea #PanelGuide .container .intro {
+  font-size: 1.5rem;
+  color: powderblue;
+}
+body #Templete #GamingMachine #CenterArea #PanelGuide .container .context {
+  width: 800px;
+  height: 300px;
+  overflow-y: scroll;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  row-gap: 20px;
+}
+body #Templete #GamingMachine #CenterArea #PanelGuide .container .context .guideLV {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: start;
+  row-gap: 5px;
+  text-align: left;
+}
+body #Templete #GamingMachine #CenterArea #PanelGuide .container .context .guideLV .title {
+  color: yellow;
+  font-size: 1.5rem;
+}
+body #Templete #GamingMachine #CenterArea #PanelGuide .container .context .guideLV span {
+  color: powderblue;
+  font-size: 1.2rem;
+}
+body #Templete #GamingMachine #CenterArea #PanelGuide .container .context .wish {
+  color: yellow;
+  font-size: 1.5rem;
+}
+body #Templete #GamingMachine #CenterArea #PanelGuide .container .context::-webkit-scrollbar {
+  width: 8px;
+}
+body #Templete #GamingMachine #CenterArea #PanelGuide .container .context::-webkit-scrollbar-thumb {
+  background-color: powderblue;
+  border-radius: 4px;
+}
+body #Templete #GamingMachine #CenterArea #PanelGuide .container .context::-webkit-scrollbar-thumb:hover {
+  background-color: powderblue;
+}
+body #Templete #GamingMachine #CenterArea #PanelGuide .container .context::-webkit-scrollbar-track {
+  background-color: black;
+}
+body #Templete #GamingMachine #CenterArea #PanelGuide .container .context::-ms-scrollbar {
+  width: 8px;
+}
+body #Templete #GamingMachine #CenterArea #PanelGuide .container .context::-ms-thumb {
+  background-color: powderblue;
+  border-radius: 4px;
+}
+body #Templete #GamingMachine #CenterArea #PanelGuide .container .container::-ms-thumb:hover {
+  background-color: powderblue;
+}
+body #Templete #GamingMachine #CenterArea #PanelGuide .container .container::-ms-track {
+  background-color: powderblue;
+}
 body #Templete #GamingMachine #CenterArea .head {
   color: powderblue;
   font-size: 5rem;
