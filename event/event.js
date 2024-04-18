@@ -1,4 +1,22 @@
 //21130328-Nguyễn Hoàng Ánh Dương
+var startMenu = document.getElementById('startGame');
+function clickStartMenu1(btnID) {
+  var returnStartOver = document.getElementById('btnBackToMenu');
+  if (returnStartOver.id = btnID) {
+    startMenu.style.display = 'flex';
+    panelOver.style.display = 'none';
+  }
+}
+var panelWinner = document.getElementById('PanelWinner')
+function Winner() {
+  panelWinner.style.display = 'flex';
+  stopAllLevels()
+}
+var panelOver = document.getElementById('PanelGameOver')
+function GameOver() {
+  panelOver.style.display = 'flex';
+  stopAllLevels()
+}
 var chooseLevelStart = document.getElementById('chooseLevelStart')
 var panChooseLevel = document.getElementById('chooseLevel')
 function chooseLevelStartInGame(btnId) {
@@ -8,7 +26,7 @@ function chooseLevelStartInGame(btnId) {
   }
 }
 var btnExit = document.getElementById('exit')
-function returnMenuStart(btnid){
+function returnMenuStart(btnid) {
   if (btnExit.id === btnid) {
     panChooseLevel.style.display = 'none';
     startGame.style.display = 'flex';
@@ -16,26 +34,26 @@ function returnMenuStart(btnid){
 }
 var panelInf = document.getElementById('PanelInformation')
 var btnexitInf = document.getElementById('exitInf')
-function returnMenuStart2(btnid){
+function returnMenuStart2(btnid) {
   if (btnexitInf.id === btnid) {
     panelInf.style.display = 'none';
   }
 }
 var btnExitGuide = document.getElementById('exitGuide')
 var panelGuide = document.getElementById('PanelGuide')
-function returnMenuStart3(btnid){
+function returnMenuStart3(btnid) {
   if (btnExitGuide.id === btnid) {
     panelGuide.style.display = 'none';
   }
 }
 var btnSeenGuide = document.getElementById('SeenGuide')
-function SeenGuide(btnId){
-  if(btnSeenGuide.id === btnId){
+function SeenGuide(btnId) {
+  if (btnSeenGuide.id === btnId) {
     panelGuide.style.display = 'flex';
   }
 }
 var btnInformation = document.getElementById('Infromation')
-function SeenInf(btnid){
+function SeenInf(btnid) {
   if (btnInformation.id === btnid) {
     panelInf.style.display = 'flex';
   }
@@ -73,6 +91,8 @@ document.getElementById('btnLv1InMenu').addEventListener('click', () => {
   animateGameLv1();
   startGame.style.display = 'none';
   panChooseLevel.style.display = 'none';
+  panelOver.style.display = 'none'
+  panelWinner.style.display = 'none'
 });
 
 document.getElementById('btnLv2InMenu').addEventListener('click', () => {
@@ -82,6 +102,8 @@ document.getElementById('btnLv2InMenu').addEventListener('click', () => {
   animateGameLv2();
   startGame.style.display = 'none';
   panChooseLevel.style.display = 'none';
+  panelOver.style.display = 'none'
+  panelWinner.style.display = 'none'
 });
 
 document.getElementById('btnLv3InMenu').addEventListener('click', () => {
@@ -91,6 +113,8 @@ document.getElementById('btnLv3InMenu').addEventListener('click', () => {
   animateGameLv3();
   startGame.style.display = 'none';
   panChooseLevel.style.display = 'none';
+  panelOver.style.display = 'none'
+  panelWinner.style.display = 'none'
 });
 
 document.getElementById('btnLv4InMenu').addEventListener('click', () => {
@@ -100,6 +124,8 @@ document.getElementById('btnLv4InMenu').addEventListener('click', () => {
   animateGameLv4();
   startGame.style.display = 'none';
   panChooseLevel.style.display = 'none';
+  panelOver.style.display = 'none'
+  panelWinner.style.display = 'none'
 });
 document.getElementById('btnLv5InMenu').addEventListener('click', () => {
   isLv5Running = true
@@ -108,6 +134,8 @@ document.getElementById('btnLv5InMenu').addEventListener('click', () => {
   animateGameLv5();
   startGame.style.display = 'none';
   panChooseLevel.style.display = 'none';
+  panelOver.style.display = 'none'
+  panelWinner.style.display = 'none'
 });
 document.getElementById('btnLv6InMenu').addEventListener('click', () => {
   isLv6Running = true
@@ -116,6 +144,8 @@ document.getElementById('btnLv6InMenu').addEventListener('click', () => {
   animateGameLv6();
   startGame.style.display = 'none';
   panChooseLevel.style.display = 'none';
+  panelOver.style.display = 'none'
+  panelWinner.style.display = 'none'
 });
 
 document.getElementById('btnLv1').addEventListener('click', () => {
@@ -124,6 +154,8 @@ document.getElementById('btnLv1').addEventListener('click', () => {
   cancelAnimationFrame(animationFrame); // Hủy bỏ vòng lặp vẽ hiện tại trước khi bắt đầu mới
   animateGameLv1();
   startGame.style.display = 'none';
+  panelOver.style.display = 'none'
+  panelWinner.style.display = 'none'
 });
 
 document.getElementById('btnLv2').addEventListener('click', () => {
@@ -132,6 +164,8 @@ document.getElementById('btnLv2').addEventListener('click', () => {
   cancelAnimationFrame(animationFrame); // Hủy bỏ vòng lặp vẽ hiện tại trước khi bắt đầu mới
   animateGameLv2();
   startGame.style.display = 'none';
+  panelOver.style.display = 'none'
+  panelWinner.style.display = 'none'
 });
 
 document.getElementById('btnLv3').addEventListener('click', () => {
@@ -140,6 +174,8 @@ document.getElementById('btnLv3').addEventListener('click', () => {
   cancelAnimationFrame(animationFrame); // Hủy bỏ vòng lặp vẽ hiện tại trước khi bắt đầu mới
   animateGameLv3();
   startGame.style.display = 'none';
+  panelOver.style.display = 'none'
+  panelWinner.style.display = 'none'
 });
 
 document.getElementById('btnLv4').addEventListener('click', () => {
@@ -148,6 +184,8 @@ document.getElementById('btnLv4').addEventListener('click', () => {
   cancelAnimationFrame(animationFrame); // Hủy bỏ vòng lặp vẽ hiện tại trước khi bắt đầu mới
   animateGameLv4();
   startGame.style.display = 'none';
+  panelOver.style.display = 'none'
+  panelWinner.style.display = 'none'
 });
 document.getElementById('btnLv5').addEventListener('click', () => {
   isLv5Running = true
@@ -155,6 +193,8 @@ document.getElementById('btnLv5').addEventListener('click', () => {
   cancelAnimationFrame(animationFrame); // Hủy bỏ vòng lặp vẽ hiện tại trước khi bắt đầu mới
   animateGameLv5();
   startGame.style.display = 'none';
+  panelOver.style.display = 'none'
+  panelWinner.style.display = 'none'
 });
 document.getElementById('btnLv6').addEventListener('click', () => {
   isLv6Running = true
@@ -162,6 +202,8 @@ document.getElementById('btnLv6').addEventListener('click', () => {
   cancelAnimationFrame(animationFrame); // Hủy bỏ vòng lặp vẽ hiện tại trước khi bắt đầu mới
   animateGameLv6();
   startGame.style.display = 'none';
+  panelOver.style.display = 'none'
+  panelWinner.style.display = 'none'
 });
 
 function changeColor(btnId) {
@@ -563,8 +605,7 @@ function collisionDetectionBall2(ball) {
           b.status = 0;
           score++;
           if (score == matrixBricks.brickRowCount * matrixBricks.brickColumnCount) {
-            alert("YOU WIN, CONGRATULATIONS!");
-            document.location.reload();
+            Winner()
           }
         }
       }
@@ -572,7 +613,7 @@ function collisionDetectionBall2(ball) {
   }
 }
 
-
+let isLifeLost = false
 function drawGameLV1() {
   if (!isLv1Running) return;
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -596,12 +637,14 @@ function drawGameLV1() {
         ball1.dy = - ball1.dy; // Quả bóng nảy lại khi cách thanh đỡ 2 pixel ở mọi mặt
       }
       else {
-        lives--;
+        if (!isLifeLost) {
+          lives--; // Chỉ giảm số lượng lives nếu không có mạng nào đã mất
+          isLifeLost = true; // Đánh dấu rằng một mạng đã bị mất
+        }
         if (!lives) {
-          alert("GAME OVER");
           lives = 0;
-          clearInterval(BallFly);
-
+          GameOver();
+          isLv1Running = false; // Ngừng game level 1
         }
         else {
           ball1.x = canvas.width / 2;
@@ -609,6 +652,7 @@ function drawGameLV1() {
           ball1.dx = 2;
           ball1.dy = -2;
           paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
+          isLifeLost = false
         }
       }
 
@@ -625,7 +669,7 @@ function drawGameLV1() {
   drawBricks()
   collisionDetection(ball1)
   drawScore()
-  console.log(ball1.dx, ball1.dy)
+  // console.log(ball1.dx, ball1.dy)
 }
 
 function drawGameLV2() {
@@ -649,18 +693,23 @@ function drawGameLV2() {
       ball1.dx = -ball1.dx;
     } else {
       // Xử lý khi quả bóng chạm biên phải
-      lives--;
+      if (!isLifeLost) {
+        lives--; // Chỉ giảm số lượng lives nếu không có mạng nào đã mất
+        isLifeLost = true; // Đánh dấu rằng một mạng đã bị mất
+      }
       if (!lives) {
-        alert("GAME OVER");
         lives = 0;
-        clearInterval(BallFly);
-      } else {
+        GameOver();
+        isLv1Running = false; // Ngừng game level 1
+      }
+      else {
         ball1.x = canvas.width / 2;
         ball1.y = canvas.height - 30;
-        ball1.dx = 1;
-        ball1.dy = -1;
+        ball1.dx = 2;
+        ball1.dy = -2;
         paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
         paddleVertical = (canvas.height - paddleVerticalInGame.height) / 2;
+        isLifeLost = false
       }
     }
   }
@@ -681,18 +730,23 @@ function drawGameLV2() {
         ball1.y + ball1.ballRadius >= canvas.height - paddleHorizontalInGame.height) {
         ball1.dy = -ball1.dy; // Quả bóng nảy lại khi cách thanh đỡ 2 pixel ở mọi mặt
       } else {
-        lives--;
+        if (!isLifeLost) {
+          lives--; // Chỉ giảm số lượng lives nếu không có mạng nào đã mất
+          isLifeLost = true; // Đánh dấu rằng một mạng đã bị mất
+        }
         if (!lives) {
-          alert("GAME OVER");
           lives = 0;
-          clearInterval(BallFly);
-        } else {
+          GameOver();
+          isLv1Running = false; // Ngừng game level 1
+        }
+        else {
           ball1.x = canvas.width / 2;
           ball1.y = canvas.height - 30;
           ball1.dx = 2;
           ball1.dy = -2;
           paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
           paddleVertical = (canvas.height - paddleVerticalInGame.height) / 2;
+          isLifeLost = false
         }
       }
     }
@@ -748,12 +802,14 @@ function drawGameLV3() {
         ball1.dy = -ball1.dy; // Quả bóng nảy lại khi cách thanh đỡ 2 pixel ở mọi mặt
       }
       else {
-        lives--;
+        if (!isLifeLost) {
+          lives--; // Chỉ giảm số lượng lives nếu không có mạng nào đã mất
+          isLifeLost = true; // Đánh dấu rằng một mạng đã bị mất
+        }
         if (!lives) {
-          alert("GAME OVER");
           lives = 0;
-          clearInterval(BallFly);
-
+          GameOver();
+          isLv1Running = false; // Ngừng game level 1
         }
         else {
           ball1.x = canvas.width / 2;
@@ -761,6 +817,7 @@ function drawGameLV3() {
           ball1.dx = 2;
           ball1.dy = -2;
           paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
+          isLifeLost = false
         }
       }
 
@@ -807,12 +864,16 @@ function drawGameLV4() {
         ball1.y + ball1.ballRadius >= canvas.height - paddleHorizontalInGame.height) {
         ball1.dy = -ball1.dy; // Quả bóng nảy lại khi cách thanh đỡ 2 pixel ở mọi mặt
       } else {
-        lives--;
+        if (!isLifeLost) {
+          lives--; // Chỉ giảm số lượng lives nếu không có mạng nào đã mất
+          isLifeLost = true; // Đánh dấu rằng một mạng đã bị mất
+        }
         if (!lives) {
-          alert("GAME OVER");
           lives = 0;
-          clearInterval(BallFly);
-        } else {
+          GameOver();
+          isLv1Running = false; // Ngừng game level 1
+        }
+        else {
           ball1.x = canvas.width / 2;
           ball1.y = canvas.height - 30;
           ball1.dx = 2;
@@ -821,6 +882,7 @@ function drawGameLV4() {
           paddleVertical = (canvas.height - paddleVerticalInGame.height) / 2;
           LocationPaddleHorizontalTop = (canvas.width - paddleHorizontalInGame.width) / 2;
           LocationPaddleVerticalRight = (canvas.height - paddleVerticalInGame.height) / 2;
+          isLifeLost = false
         }
       }
     }
@@ -921,6 +983,149 @@ function drawGameLV4() {
   drawBricksLV4();
   collisionDetectionLV4(ball1);
   drawScore();
+  console.log(ball1.dx, ball1.dy)
+}
+
+var listBallLv5 = []
+listBallLv5.push(ball1)
+function drawGameLV5() {
+  if (!isLv5Running) return;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawPaddleHorizontalLV5()
+  listBallLv5.forEach(ball => {
+    drawBall2(ball);
+    ball.x += ball.dx;
+    ball.y += ball.dy;
+    if (ball.x + ball.dx > canvas.width - ball.ballRadius || ball.x + ball.dx < ball.ballRadius) {
+      ball.dx = - ball.dx;
+    }
+    if (ball.y + ball.dy < ball.ballRadius) {
+      ball.dy = -ball.dy;
+    }
+    else if (ball.y + ball.dy > canvas.height - ball.ballRadius - paddleHorizontalInGameLV5.height + 10) {
+      if (ball.x > LocationPaddleHorizontalInGameLV5 - ball.ballRadius && ball.x < LocationPaddleHorizontalInGameLV5 + paddleHorizontalInGameLV5.width + ball.ballRadius) {
+        ball.dy = -ball.dy;
+      }
+      else {
+        if (Math.abs(ball.x - (LocationPaddleHorizontalInGameLV5 + paddleHorizontalInGameLV5.width / 2)) <= ball.ballRadius &&
+          ball.y + ball.ballRadius >= canvas.height - paddleHorizontalInGameLV5.height) {
+          ball.dy = - ball.dy; // Quả bóng nảy lại khi cách thanh đỡ 2 pixel ở mọi mặt
+        }
+        else {
+          if (!isLifeLost) {
+            lives--; // Chỉ giảm số lượng lives nếu không có mạng nào đã mất
+            isLifeLost = true; // Đánh dấu rằng một mạng đã bị mất
+          }
+          if (!lives) {
+            lives = 0;
+            GameOver();
+            isLv1Running = false; // Ngừng game level 1
+          }
+          else {
+            ball.x = canvas.width / 2;
+            ball.y = canvas.height - 30;
+            ball.dx = 2;
+            ball.dy = -2;
+            paddleHorizontal = (canvas.width - paddleHorizontalInGameLV5.width) / 2;
+            isLifeLost = false
+          }
+        }
+
+      }
+    }
+    collisionDetection(ball)
+  })
+  if (rightPressed && LocationPaddleHorizontalInGameLV5 < canvas.width - paddleHorizontalInGameLV5.width) {
+    LocationPaddleHorizontalInGameLV5 += 7;
+  }
+  else if (leftPressed && paddleHorizontal > 0) {
+    LocationPaddleHorizontalInGameLV5 -= 7;
+  }
+  drawLives()
+  drawBricks()
+  drawScore()
+  console.log(ball1.dx, ball1.dy)
+}
+class BallChill {
+  constructor(x, y, ballRadius, dx, dy, color) {
+    this.x = x
+    this.y = y
+    this.ballRadius = ballRadius
+    this.dx = dx
+    this.dy = dy
+    this.color = color
+  }
+}
+function drawBallChill() {
+  clearInterval(addball);
+  if (!isLv5Running) return;
+  var addball = setInterval(function () {
+    if (listBallLv5.length < 5) {
+      var ballChill = new BallChill(canvas.width / 2, canvas.height - 30, 15, 2, -2, 'blue');
+      listBallLv5.push(ballChill);
+      console.log(listBallLv5.length);
+    } else {
+      clearInterval(addball);
+    }
+  }, 5000);
+}
+
+function drawGameLV6() {
+  if (!isLv6Running) return;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawBall2(ball1);
+  drawPaddleHorizontal()
+  zoomInBall(ball1)
+  ball1.x += ball1.dx;
+  ball1.y += ball1.dy;
+  if (ball1.x + ball1.dx > canvas.width - ball1.ballRadius || ball1.x + ball1.dx < ball1.ballRadius) {
+    ball1.dx = - ball1.dx;
+  }
+  if (ball1.y + ball1.dy < ball1.ballRadius) {
+    ball1.dy = -ball1.dy;
+  }
+  else if (ball1.y + ball1.dy > canvas.height - ball1.ballRadius - paddleHorizontalInGame.height + 10) {
+    if (ball1.x > paddleHorizontal - ball1.ballRadius && ball1.x < paddleHorizontal + paddleHorizontalInGame.width + ball1.ballRadius) {
+      ball1.dy = -ball1.dy;
+    }
+    else {
+      if (Math.abs(ball1.x - (paddleHorizontal + paddleHorizontalInGame.width / 2)) <= ball1.ballRadius &&
+        ball1.y + ball1.ballRadius >= canvas.height - paddleHorizontalInGame.height) {
+        ball1.dy = - ball1.dy; // Quả bóng nảy lại khi cách thanh đỡ 2 pixel ở mọi mặt
+      }
+      else {
+        if (!isLifeLost) {
+          lives--; // Chỉ giảm số lượng lives nếu không có mạng nào đã mất
+          isLifeLost = true; // Đánh dấu rằng một mạng đã bị mất
+        }
+        if (!lives) {
+          lives = 0;
+          GameOver();
+          isLv1Running = false; // Ngừng game level 1
+        }
+        else {
+          ball1.x = canvas.width / 2;
+          ball1.y = canvas.height - 30;
+          ball1.dx = 2;
+          ball1.dy = -2;
+          paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
+          isLifeLost = false
+        }
+      }
+
+    }
+  }
+
+  if (rightPressed && paddleHorizontal < canvas.width - paddleHorizontalInGame.width) {
+    paddleHorizontal += 5;
+  }
+  else if (leftPressed && paddleHorizontal > 0) {
+    paddleHorizontal -= 5;
+  }
+  drawLives()
+  drawBricksLV6()
+  collisionDetectionLV6(ball1)
+  drawScore()
   console.log(ball1.dx, ball1.dy)
 }
 function animateGameLv1() {
@@ -1037,86 +1242,7 @@ function drawPaddleHorizontalLV5() {
   ctx.fill();
   ctx.closePath();
 }
-var listBallLv5 = []
-listBallLv5.push(ball1)
-function drawGameLV5() {
-  if (!isLv5Running) return;
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawPaddleHorizontalLV5()
-  listBallLv5.forEach(ball => {
-    drawBall2(ball);
-    ball.x += ball.dx;
-    ball.y += ball.dy;
-    if (ball.x + ball.dx > canvas.width - ball.ballRadius || ball.x + ball.dx < ball.ballRadius) {
-      ball.dx = - ball.dx;
-    }
-    if (ball.y + ball.dy < ball.ballRadius) {
-      ball.dy = -ball.dy;
-    }
-    else if (ball.y + ball.dy > canvas.height - ball.ballRadius - paddleHorizontalInGameLV5.height + 10) {
-      if (ball.x > LocationPaddleHorizontalInGameLV5 - ball.ballRadius && ball.x < LocationPaddleHorizontalInGameLV5 + paddleHorizontalInGameLV5.width + ball.ballRadius) {
-        ball.dy = -ball.dy;
-      }
-      else {
-        if (Math.abs(ball.x - (LocationPaddleHorizontalInGameLV5 + paddleHorizontalInGameLV5.width / 2)) <= ball.ballRadius &&
-          ball.y + ball.ballRadius >= canvas.height - paddleHorizontalInGameLV5.height) {
-          ball.dy = - ball.dy; // Quả bóng nảy lại khi cách thanh đỡ 2 pixel ở mọi mặt
-        }
-        else {
-          lives--;
-          if (!lives) {
-            alert("GAME OVER");
-            lives = 0;
-            clearInterval(BallFly);
 
-          }
-          else {
-            ball.x = canvas.width / 2;
-            ball.y = canvas.height - 30;
-            ball.dx = 2;
-            ball.dy = -2;
-            paddleHorizontal = (canvas.width - paddleHorizontalInGameLV5.width) / 2;
-          }
-        }
-
-      }
-    }
-    collisionDetection(ball)
-  })
-  if (rightPressed && LocationPaddleHorizontalInGameLV5 < canvas.width - paddleHorizontalInGameLV5.width) {
-    LocationPaddleHorizontalInGameLV5 += 7;
-  }
-  else if (leftPressed && paddleHorizontal > 0) {
-    LocationPaddleHorizontalInGameLV5 -= 7;
-  }
-  drawLives()
-  drawBricks()
-  drawScore()
-  console.log(ball1.dx, ball1.dy)
-}
-class BallChill {
-  constructor(x, y, ballRadius, dx, dy, color) {
-    this.x = x
-    this.y = y
-    this.ballRadius = ballRadius
-    this.dx = dx
-    this.dy = dy
-    this.color = color
-  }
-}
-function drawBallChill() {
-  clearInterval(addball);
-  if (!isLv5Running) return;
-  var addball = setInterval(function () {
-    if (listBallLv5.length < 5) {
-      var ballChill = new BallChill(canvas.width / 2, canvas.height - 30, 15, 2, -2, 'blue');
-      listBallLv5.push(ballChill);
-      console.log(listBallLv5.length);
-    } else {
-      clearInterval(addball);
-    }
-  }, 5000);
-}
 
 function animateGameLv5() {
   stopAllLevels()
@@ -1244,61 +1370,7 @@ function collisionDetectionLV6(ball) {
   }
 }
 
-function drawGameLV6() {
-  if (!isLv6Running) return;
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawBall2(ball1);
-  drawPaddleHorizontal()
-  zoomInBall(ball1)
-  ball1.x += ball1.dx;
-  ball1.y += ball1.dy;
-  if (ball1.x + ball1.dx > canvas.width - ball1.ballRadius || ball1.x + ball1.dx < ball1.ballRadius) {
-    ball1.dx = - ball1.dx;
-  }
-  if (ball1.y + ball1.dy < ball1.ballRadius) {
-    ball1.dy = -ball1.dy;
-  }
-  else if (ball1.y + ball1.dy > canvas.height - ball1.ballRadius - paddleHorizontalInGame.height + 10) {
-    if (ball1.x > paddleHorizontal - ball1.ballRadius && ball1.x < paddleHorizontal + paddleHorizontalInGame.width + ball1.ballRadius) {
-      ball1.dy = -ball1.dy;
-    }
-    else {
-      if (Math.abs(ball1.x - (paddleHorizontal + paddleHorizontalInGame.width / 2)) <= ball1.ballRadius &&
-        ball1.y + ball1.ballRadius >= canvas.height - paddleHorizontalInGame.height) {
-        ball1.dy = - ball1.dy; // Quả bóng nảy lại khi cách thanh đỡ 2 pixel ở mọi mặt
-      }
-      else {
-        lives--;
-        if (!lives) {
-          alert("GAME OVER");
-          lives = 0;
-          clearInterval(BallFly);
 
-        }
-        else {
-          ball1.x = canvas.width / 2;
-          ball1.y = canvas.height - 30;
-          ball1.dx = 2;
-          ball1.dy = -2;
-          paddleHorizontal = (canvas.width - paddleHorizontalInGame.width) / 2;
-        }
-      }
-
-    }
-  }
-
-  if (rightPressed && paddleHorizontal < canvas.width - paddleHorizontalInGame.width) {
-    paddleHorizontal += 5;
-  }
-  else if (leftPressed && paddleHorizontal > 0) {
-    paddleHorizontal -= 5;
-  }
-  drawLives()
-  drawBricksLV6()
-  collisionDetectionLV6(ball1)
-  drawScore()
-  console.log(ball1.dx, ball1.dy)
-}
 function animateGameLv6() {
   stopAllLevels()
   isLv6Running = true;
